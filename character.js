@@ -27,11 +27,11 @@
     if (paused) return;
 
     paused = true;
-    char.src = 'DrBooger_SleepingCrop.gif';
+    char.src = 'assets/DrBooger_SleepingCrop.GIF';
 
     setTimeout(function () {
       paused = false;
-      char.src = 'DrBooger_WalkingCrop.gif';
+      char.src = 'assets/DrBooger_WalkingCrop.GIF';
     }, 3000);
   });
 })();

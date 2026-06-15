@@ -29,6 +29,13 @@
 - [x] Security check
 - [x] Add to review section
 
+## Organise assets folder
+- [ ] Create assets/ folder and move GIFs with git mv
+- [ ] Update character.js src paths
+- [ ] Update index.html img src
+- [ ] Update casestudy.html img src
+- [ ] Commit and push
+
 ## Review — Character animation
 - Created character.js as a self-contained IIFE; added to both index.html and casestudy.html
 - Square starts at left: -60px (off-screen), waits 5s, then slides right at 2.5px/frame (~10s to cross a 1400px screen)
