@@ -355,6 +355,48 @@ footer {
   color: #222;
 }
 
+/* ── LOADER ── */
+#loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: #f9f9f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease;
+}
+
+#loader.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#loader-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: #222222;
+}
+
+#loader-cursor {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  color: #222222;
+  animation: blink 0.75s step-end infinite;
+}
+
+#loader-cursor.hidden {
+  visibility: hidden;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
 /* ── CASE STUDY ── */
 .cs-back {
   display: inline-flex;

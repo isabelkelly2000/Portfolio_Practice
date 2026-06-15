@@ -29,6 +29,13 @@
 - [x] Security check
 - [x] Add to review section
 
+## Loading animation (index.html)
+- [x] Add loader styles to styles.css
+- [x] Add loader HTML to index.html
+- [x] Create loader.js
+- [x] Security check — no user input or external data, no vulnerabilities
+- [ ] Commit and push
+
 ## Organise assets folder
 - [ ] Create assets/ folder and move GIFs with git mv
 - [ ] Update character.js src paths
