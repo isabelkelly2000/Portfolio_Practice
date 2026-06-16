@@ -34,7 +34,7 @@
 - [x] Add loader HTML to index.html
 - [x] Create loader.js
 - [x] Security check — no user input or external data, no vulnerabilities
-- [ ] Commit and push
+- [x] Committed locally (not yet pushed)
 
 ## Organise assets folder
 - [ ] Create assets/ folder and move GIFs with git mv

@@ -1,6 +1,6 @@
 (function () {
   var text = 'IZZY KELLY';
-  var delay = 120;
+  var delay = 200;
   var el = document.getElementById('loader-text');
   var cursor = document.getElementById('loader-cursor');
   var loader = document.getElementById('loader');
@@ -12,7 +12,7 @@
       i++;
       setTimeout(typeNext, delay);
     } else {
-      setTimeout(finish, 600);
+      setTimeout(finish, 1000);
     }
   }
 
@@ -25,5 +25,5 @@
     }, { once: true });
   }
 
-  typeNext();
+  setTimeout(typeNext, 1000);
 })();
