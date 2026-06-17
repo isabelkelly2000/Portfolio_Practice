@@ -1,9 +1,20 @@
 (function () {
-  var text = 'IZZY KELLY';
-  var delay = 200;
+  var loader = document.getElementById('loader');
   var el = document.getElementById('loader-text');
   var cursor = document.getElementById('loader-cursor');
-  var loader = document.getElementById('loader');
+
+  function skip() {
+    loader.style.display = 'none';
+    document.documentElement.style.overflow = '';
+  }
+
+  if (sessionStorage.getItem('loaderSeen')) {
+    skip();
+    return;
+  }
+
+  var text = 'IZZY KELLY';
+  var delay = 200;
   var i = 0;
 
   function typeNext() {
@@ -17,6 +28,7 @@
   }
 
   function finish() {
+    sessionStorage.setItem('loaderSeen', '1');
     cursor.classList.add('hidden');
     loader.classList.add('fade-out');
     loader.addEventListener('transitionend', function () {
