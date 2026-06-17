@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Izzy Kelly — Coming Soon</title>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .coming-soon-wrapper {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      padding: 20px 24px;
+      text-align: center;
+    }
+
+    .coming-soon-lockup {
+      height: 100px;
+      width: auto;
+    }
+
+    .coming-soon-text {
+      font-family: 'Work Sans', sans-serif;
+      font-size: clamp(13px, 2vw, 16px);
+      font-weight: 400;
+      letter-spacing: 0.13em;
+      color: #aaa;
+      text-transform: uppercase;
+      display: flex;
+      align-items: baseline;
+      gap: 0;
+    }
+
+    .coming-soon-dots {
+      display: inline-block;
+      width: 1.8em;
+      text-align: left;
+    }
+
+    .coming-soon-character {
+      width: 200px;
+      height: auto;
+    }
+
+    @media (max-width: 480px) {
+      .coming-soon-lockup     { height: 52px; }
+      .coming-soon-character  { width: 150px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="coming-soon-wrapper">
+    <img
+      class="coming-soon-lockup"
+      src="assets/Name_Lockup_DarkBlue.png"
+      alt="Izzy Kelly"
+    />
+
+    <p class="coming-soon-text">
+      new portfolio in the works<span class="coming-soon-dots" id="dots">.</span>
+    </p>
+
+    <img
+      class="coming-soon-character"
+      src="assets/Dr._BOOGER_waving.gif"
+      alt="Dr. Booger waving"
+    />
+  </div>
+
+  <script>
+    (function () {
+      var states = ['.', '..', '...'];
+      var i = 0;
+      var el = document.getElementById('dots');
+      setInterval(function () {
+        i = (i + 1) % states.length;
+        el.textContent = states[i];
+      }, 300);
+    })();
+  </script>
+
+</body>
+</html>

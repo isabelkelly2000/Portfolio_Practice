@@ -36,6 +36,25 @@
 - [x] Security check — no user input or external data, no vulnerabilities
 - [x] Committed locally (not yet pushed)
 
+## Coming Soon page (coming-soon.html)
+- [x] Write plan and get approval
+- [x] Create `coming-soon.html` — full-viewport centred layout, no nav/footer
+  - [x] Name lockup image (`assets/Name_Lockup_DarkBlue.png`) at top
+  - [x] "new portfolio in the works" text with animated ellipsis (one dot at a time, on repeat)
+  - [x] Dr. Booger waving GIF (`assets/Dr._BOOGER_waving.gif`) centred below
+- [x] Add page-scoped styles inside a `<style>` block (reuse `styles.css` for body bg + fonts, add centering + dot animation)
+- [x] Add JS ellipsis animation (cycles `.` → `..` → `...` → `.` every 500 ms)
+- [x] Security check — no user input, no innerHTML, no eval, no external requests beyond Google Fonts; all asset paths are local — no vulnerabilities
+- [x] Add review section to todo.md
+
+### Review — Coming Soon page
+- Created `coming-soon.html` as a self-contained splash page inside Portfolio_Practice
+- Links `styles.css` for body bg (`#f9f9f7`) and font base; page-scoped `<style>` block handles centering and responsive sizing
+- Three elements stacked vertically via flexbox column: name lockup → text → Dr. Booger waving GIF
+- Ellipsis cycles `.` → `..` → `...` via a minimal IIFE `setInterval` (500 ms) with no DOM manipulation beyond `textContent`
+- Responsive: lockup and character scale down at ≤480px
+- Security: no user input, no `innerHTML`, no `eval`, no external data — nothing exploitable
+
 ## Organise assets folder
 - [ ] Create assets/ folder and move GIFs with git mv
 - [ ] Update character.js src paths
