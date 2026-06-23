@@ -83,13 +83,8 @@
     title.className = 'project-title';
     title.textContent = project.title || '';
 
-    var desc = document.createElement('p');
-    desc.className = 'project-desc';
-    desc.textContent = project.description || '';
-
     infoDiv.appendChild(metaDiv);
     infoDiv.appendChild(title);
-    infoDiv.appendChild(desc);
 
     article.appendChild(imageDiv);
     article.appendChild(infoDiv);

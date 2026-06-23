@@ -2,6 +2,11 @@
   var char = document.getElementById('character');
   if (!char) return;
 
+  if (localStorage.getItem('booger-walked')) {
+    char.style.display = 'none';
+    return;
+  }
+
   var posX = -60;
   var speed = .8;
   var paused = false;
@@ -13,6 +18,7 @@
 
       if (posX > window.innerWidth) {
         char.style.display = 'none';
+        localStorage.setItem('booger-walked', '1');
         return;
       }
     }
