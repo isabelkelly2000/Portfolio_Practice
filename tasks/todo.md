@@ -1,5 +1,24 @@
 # Portfolio To-Do
 
+## Design Token System
+- [x] Define all tokens as CSS custom properties in `:root` (colors, fonts, spacing, radius, shadow)
+- [x] Replace all hardcoded hex colors with `var(--color-*)` tokens
+- [x] Replace all hardcoded font families with `var(--font-*)` tokens
+- [x] Replace all hardcoded page spacing (60px/28px pattern) with `var(--space-page)` / `var(--space-page-mobile)`
+- [x] Replace hardcoded radius and shadow values with tokens
+- [x] Security check — pure CSS refactor, no new attack surface
+ 
+### Review — Design Token System
+- Added a `/* ── DESIGN TOKENS ── */` `:root` block at the top of `styles.css` with 17 tokens across 5 categories
+- **Colors**: `--color-bg`, `--color-surface`, `--color-border`, `--color-placeholder`, `--color-placeholder-line`, `--color-heading`, `--color-accent`, and 7 text-hierarchy tokens from `--color-text` → `--color-text-hairline`
+- **Typography**: `--font-body` (Work Sans), `--font-display` (UglyDave)
+- **Spacing**: `--space-page` (60px), `--space-page-mobile` (28px) — used across nav, hero, work, footer, and case study sections
+- **Radius**: `--radius-card` (16px), `--radius-image-block` (12px), `--radius-pill` (100px), `--radius-sm` (4px)
+- **Shadow**: `--shadow-hover`
+- No hardcoded hex colors remain outside the `:root` block
+- To retheme the site: edit values in `:root` only — no other changes needed
+- Security: pure refactor, no dynamic values, no user input, no new vectors
+
 ## Sanity → Case Study Connection
 - [x] Step 1 — Extend `project` schema: add `subtitle`, `client`, `deliverables` (array of strings), `date`, `aboutText`, `challengeText`, `solutionText`, `template` (defaults to `casestudy.html`)
 - [x] Step 2 — Update `casestudy.html`: add `id` attributes to dynamic fields; link `casestudy.js`
