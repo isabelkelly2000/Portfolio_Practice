@@ -1,7 +1,7 @@
 /* ── DESIGN TOKENS ── */
 :root {
   /* Colors */
-  --color-bg:           #f7f9f7;
+  --color-bg:           #ffffff;
   --color-surface:      #ffffff;
   --color-border:       #e8e8e4;
   --color-placeholder:  #d8d8d4;
@@ -25,6 +25,7 @@
   /* Spacing */
   --space-page:        60px;
   --space-page-mobile: 28px;
+  --page-max-width:    1200px;
 
   /* Radius */
   --radius-card: 16px;
@@ -51,6 +52,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
 }
 
 body {
@@ -154,6 +156,8 @@ nav {
   justify-content: center;
   padding: 140px var(--space-page) 80px;
   position: relative;
+  max-width: var(--page-max-width);
+  margin: 0 auto;
 }
 
 .hero-heading {
@@ -273,7 +277,17 @@ nav {
 
 /* ── WORK ── */
 #work {
-  padding: 100px var(--space-page);
+  padding: 0;
+  max-width: var(--page-max-width);
+  margin: 0 auto;
+}
+
+.work-header {
+  position: sticky;
+  z-index: 50;
+  background-color: var(--color-bg);
+  padding: 20px var(--space-page);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .section-label {
@@ -288,45 +302,103 @@ nav {
   font-size: 36px;
   font-weight: 700;
   letter-spacing: -0.02em;
-  margin-bottom: 60px;
+  margin-bottom: 0px;
 }
 
+/* ── PROJECT STACK LAYOUT ── */
 .projects-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: visible;
 }
 
 .project-card {
   background-color: var(--color-surface);
-  border-radius: var(--radius-card);
-  overflow: hidden;
-  border: 1px solid var(--color-border);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: box-shadow 0.2s ease;
   cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 40px;
+  padding: 48px 60px;
+  min-height: 360px;
 }
 
-.project-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-hover);
+
+.project-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.project-title {
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--color-heading);
+}
+
+.project-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.project-company {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.meta-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--color-text-hairline);
+  flex-shrink: 0;
+}
+
+.project-role-tag {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+
+.project-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.project-pill {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  padding: 6px 14px;
 }
 
 .project-image {
-  width: 100%;
+  flex: 0 0 50%;
   aspect-ratio: 4 / 3;
-  background-color: var(--color-placeholder);
-  position: relative;
-  overflow: hidden;
+  padding: 20px; /* ← adjust this value to control image-to-edge spacing */
 }
 
-.project-image-inner {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 20px;
-  justify-content: flex-end;
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: var(--radius-image-block);
 }
 
 .img-line {
@@ -339,47 +411,6 @@ nav {
 .img-line.medium { width: 65%; }
 .img-line.long   { width: 85%; }
 
-.project-info {
-  padding: 24px 24px 28px;
-}
-
-.project-meta {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.project-company {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  color: var(--color-text-subtle);
-}
-
-.meta-dot {
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background-color: var(--color-text-hairline);
-  flex-shrink: 0;
-}
-
-.project-role-tag {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  color: var(--color-text-muted);
-}
-
-.project-title {
-  font-size: 18px;
-  font-weight: extra-bold;
-  letter-spacing: -0.01em;
-  line-height: 1.3;
-  margin-bottom: 10px;
-}
-
 .project-desc {
   font-size: 13px;
   color: var(--color-text-muted);
@@ -390,6 +421,8 @@ nav {
 footer {
   border-top: 1px solid var(--color-border);
   padding: 60px var(--space-page) 40px;
+  max-width: var(--page-max-width);
+  margin: 0 auto;
 }
 
 .footer-top {
@@ -696,8 +729,8 @@ footer {
   nav             { padding: 16px var(--space-page-mobile); }
   #home           { padding: 120px var(--space-page-mobile) 80px; }
   .scroll-signal  { left: var(--space-page-mobile); }
-  #work           { padding: 80px var(--space-page-mobile); }
-  .projects-grid  { grid-template-columns: repeat(2, 1fr); }
+  .work-header    { padding: 60px var(--space-page-mobile) 32px; }
+  .projects-grid  { grid-template-columns: 1fr; }
   footer          { padding: 48px var(--space-page-mobile) 32px; }
   .footer-top     { flex-direction: column; gap: 40px; }
 }
