@@ -236,7 +236,8 @@ nav {
   font-size: 16px;
   font-weight: 400;
   color: var(--color-text-secondary);
-  max-width: 480px;
+  max-width: 600px;
+  text-wrap: pretty;
   line-height: 1.7;
 }
 
@@ -280,14 +281,17 @@ nav {
   padding: 0;
   max-width: var(--page-max-width);
   margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 100px;
 }
 
-.work-header {
+.work-sidebar {
   position: sticky;
-  z-index: 50;
-  background-color: var(--color-bg);
-  padding: 20px var(--space-page);
-  border-bottom: 1px solid var(--color-border);
+  top: 97px; /* set precisely by JS on load/resize */
+  width: 220px;
+  flex-shrink: 0;
+  padding: 48px 32px 48px var(--space-page);
 }
 
 .section-label {
@@ -305,12 +309,14 @@ nav {
   margin-bottom: 0px;
 }
 
-/* ── PROJECT STACK LAYOUT ── */
+/* ── PROJECT CARDS ── */
 .projects-grid {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  overflow: visible;
+  gap: 12px;
+  padding: 38px 0;
 }
 
 .project-card {
@@ -318,24 +324,31 @@ nav {
   transition: box-shadow 0.2s ease;
   cursor: pointer;
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 40px;
-  padding: 48px 60px;
-  min-height: 360px;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 26px;
 }
 
-
 .project-info {
-  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  padding-top: 16px;
+}
+
+.project-left {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 8px;
+  max-width: 480px;
 }
 
 .project-title {
-  font-size: clamp(28px, 3.5vw, 48px);
+  font-size: clamp(19px, 2.8vw, 24px);
   font-weight: 700;
+  text-wrap: pretty;
   letter-spacing: -0.02em;
   line-height: 1.15;
   color: var(--color-heading);
@@ -344,29 +357,29 @@ nav {
 .project-meta {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .project-company {
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.08em;
   color: var(--color-text-secondary);
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 
 .meta-dot {
-  width: 4px;
-  height: 4px;
+  width: 3px;
+  height: 3px;
   border-radius: 50%;
   background-color: var(--color-text-hairline);
   flex-shrink: 0;
 }
 
 .project-role-tag {
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 500;
   color: var(--color-text-muted);
 }
@@ -374,23 +387,23 @@ nav {
 .project-pills {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
+  justify-content: flex-end;
+  gap: 6px;
+  max-width: 224px;
 }
 
 .project-pill {
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 500;
   color: var(--color-text);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-pill);
-  padding: 6px 14px;
+  padding: 5px 11px;
 }
 
 .project-image {
-  flex: 0 0 50%;
-  aspect-ratio: 4 / 3;
-  padding: 20px; /* ← adjust this value to control image-to-edge spacing */
+  width: 100%;
+  aspect-ratio: 3 / 2;
   overflow: hidden;
   border-radius: var(--radius-image-block);
 }
@@ -400,7 +413,6 @@ nav {
   height: 100%;
   object-fit: cover;
   display: block;
-  border-radius: var(--radius-image-block);
   transition: transform 0.4s ease;
 }
 
@@ -742,12 +754,26 @@ footer {
   z-index: 200;
 }
 
+#character-tooltip {
+  position: fixed;
+  bottom: 160px;
+  font-family: var(--font-display);
+  font-size: 16px;
+  color: var(--color-heading);
+  transform: translateX(-50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  z-index: 201;
+  white-space: nowrap;
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
   nav             { padding: 16px var(--space-page-mobile); }
   #home           { padding: 120px var(--space-page-mobile) 80px; }
   .scroll-signal  { left: var(--space-page-mobile); }
-  .work-header    { padding: 60px var(--space-page-mobile) 32px; }
+  .work-sidebar   { padding: 32px var(--space-page-mobile); width: 140px; }
   .projects-grid  { grid-template-columns: 1fr; }
   footer          { padding: 48px var(--space-page-mobile) 32px; }
   .footer-top     { flex-direction: column; gap: 40px; }

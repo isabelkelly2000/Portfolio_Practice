@@ -19,10 +19,8 @@
       projects.forEach(function (project) {
         grid.appendChild(createCard(project));
       });
-      initStackScroll();
-      updateOverlapShadows();
-      window.addEventListener('resize', function () { initStackScroll(); updateOverlapShadows(); });
-      window.addEventListener('scroll', function () { handleHeaderRelease(); updateOverlapShadows(); }, { passive: true });
+      setSidebarTop();
+      window.addEventListener('resize', setSidebarTop);
     })
     .catch(function (err) {
       console.error('Sanity fetch failed:', err);
@@ -79,11 +77,15 @@
       });
     }
 
-    infoDiv.appendChild(title);
-    infoDiv.appendChild(metaDiv);
+    var leftDiv = document.createElement('div');
+    leftDiv.className = 'project-left';
+    leftDiv.appendChild(title);
+    leftDiv.appendChild(metaDiv);
+
+    infoDiv.appendChild(leftDiv);
     infoDiv.appendChild(pillsDiv);
 
-    // Right: image
+    // Top: image
     var imageDiv = document.createElement('div');
     imageDiv.className = 'project-image';
 
@@ -100,90 +102,19 @@
       });
     }
 
-    article.appendChild(infoDiv);
     article.appendChild(imageDiv);
+    article.appendChild(infoDiv);
     wrapper.appendChild(article);
 
     return wrapper;
   }
 
-  var currentStickyTop = 0;
-
-  function initStackScroll() {
-    var cards = document.querySelectorAll('.projects-grid > *');
+  function setSidebarTop() {
     var nav = document.querySelector('nav');
-    var workHeader = document.querySelector('.work-header');
-    var navHeight = nav ? nav.offsetHeight : 0;
-    var headerHeight = workHeader ? workHeader.offsetHeight : 0;
-    if (workHeader) {
-      workHeader.style.top = navHeight + 'px';
-      workHeader.style.transform = '';
-    }
-    currentStickyTop = navHeight + headerHeight;
-    cards.forEach(function (card, i) {
-      card.style.position = 'sticky';
-      card.style.top = currentStickyTop + 'px';
-      card.style.zIndex = i + 1;
-      card.style.marginBottom = '';
-      card.style.scrollSnapAlign = 'start';
-      card.style.scrollMarginTop = currentStickyTop + 'px';
-    });
-  }
-
-  function updateOverlapShadows() {
-    var cards = document.querySelectorAll('.projects-grid > *');
-    cards.forEach(function (card, i) {
-      if (i === 0) { card.classList.remove('card-overlapping'); return; }
-      var top = card.getBoundingClientRect().top;
-      card.classList.toggle('card-overlapping', top <= currentStickyTop + 1);
-    });
-  }
-
-  function handleHeaderRelease() {
-    var workHeader = document.querySelector('.work-header');
-    var cards = document.querySelectorAll('.projects-grid > *');
-    if (!workHeader || !cards.length) return;
-    var lastCard = cards[cards.length - 1];
-    var lastCardTop = lastCard.getBoundingClientRect().top;
-    // While the last card is sticky, lastCardTop === currentStickyTop (no transform needed).
-    // Once it releases and scrolls up, lastCardTop drops below currentStickyTop —
-    // translate the header up by the same amount so both scroll off together.
-    var overshoot = currentStickyTop - lastCardTop;
-    if (overshoot > 0) {
-      workHeader.style.transform = 'translateY(-' + overshoot + 'px)';
-    } else {
-      workHeader.style.transform = '';
+    var sidebar = document.querySelector('.work-sidebar');
+    if (sidebar && nav) {
+      sidebar.style.top = nav.offsetHeight + 'px';
     }
   }
-
-  var lastUpSnapTime = 0;
-
-  function getCardSnapPositions() {
-    var cards = document.querySelectorAll('.projects-grid > *');
-    var positions = [];
-    cards.forEach(function (card) {
-      positions.push(Math.round(card.offsetTop - currentStickyTop));
-    });
-    return positions;
-  }
-
-  window.addEventListener('wheel', function (e) {
-    if (e.deltaY >= 0) return;
-    var positions = getCardSnapPositions();
-    if (!positions.length) return;
-    var scrollY = window.scrollY;
-    if (scrollY < positions[0] - 50 || scrollY > positions[positions.length - 1] + 50) return;
-    var prevPos = null;
-    for (var i = positions.length - 1; i >= 0; i--) {
-      if (positions[i] < scrollY - 20) { prevPos = positions[i]; break; }
-    }
-    if (prevPos === null) return;
-    if (Date.now() - lastUpSnapTime < 400) { e.preventDefault(); return; }
-    e.preventDefault();
-    lastUpSnapTime = Date.now();
-    document.documentElement.style.scrollSnapType = 'none';
-    window.scrollTo({ top: prevPos, behavior: 'smooth' });
-    setTimeout(function () { document.documentElement.style.scrollSnapType = ''; }, 500);
-  }, { passive: false });
 
 })();

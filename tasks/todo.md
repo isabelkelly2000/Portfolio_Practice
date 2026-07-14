@@ -109,6 +109,28 @@
 - Responsive: lockup and character scale down at ≤480px
 - Security: no user input, no `innerHTML`, no `eval`, no external data — nothing exploitable
 
+## Dr. Booger — repeat visits
+- [x] Replace one-time `booger-walked` localStorage flag with a visit counter (`booger-visits`)
+- [x] Show Dr. Booger every 3rd visit (visits 1, 4, 7, 10…)
+- [x] Increment the counter each page load; hide him on non-qualifying visits
+- [x] Security check — counter is a parsed integer, no user-controlled strings evaluated, no XSS vector
+
+### Review — Dr. Booger repeat visits
+- `character.js`: replaced `booger-walked` one-time flag with a `booger-visits` integer counter in localStorage
+- Counter increments on every page load; Dr. Booger walks on visits where `count % 3 === 1` (visits 1, 4, 7…)
+- Removed the `localStorage.setItem('booger-walked')` call that used to permanently suppress him
+- `parseInt(..., 10)` with a fallback of `'0'` guards against any corrupted value in storage
+
+## Project card layout — meta under title, pills on right
+- [x] `sanity.js`: wrap title + metaDiv in a new `.project-left` div; move pillsDiv out to be a sibling in `.project-info`
+- [x] `styles.css`: replace `.project-details` with `.project-left` (flex column); pills keep right-align
+- [x] Security check — pure DOM restructure, no user input, no innerHTML, no new vectors
+
+### Review — Project card layout
+- `sanity.js`: replaced `detailsDiv.project-details` wrapper with `leftDiv.project-left` containing title + meta; pillsDiv is now a direct sibling inside `project-info`
+- `styles.css`: removed `.project-details` (flex column, align-items flex-end); added `.project-left` (flex column, gap 10px)
+- `project-info` (flex row, space-between) now puts the left column vs pills on opposite ends naturally
+
 ## Organise assets folder
 - [ ] Create assets/ folder and move GIFs with git mv
 - [ ] Update character.js src paths

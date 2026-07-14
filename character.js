@@ -2,10 +2,25 @@
   var char = document.getElementById('character');
   if (!char) return;
 
-  if (localStorage.getItem('booger-walked')) {
+  var visits = parseInt(localStorage.getItem('booger-visits') || '0', 10) + 1;
+  localStorage.setItem('booger-visits', visits);
+
+  if (visits % 3 !== 1) {
     char.style.display = 'none';
     return;
   }
+
+  var tooltip = document.createElement('div');
+  tooltip.id = 'character-tooltip';
+  tooltip.textContent = 'click me!';
+  document.body.appendChild(tooltip);
+
+  char.addEventListener('mouseenter', function () {
+    if (!paused) tooltip.style.opacity = '1';
+  });
+  char.addEventListener('mouseleave', function () {
+    tooltip.style.opacity = '0';
+  });
 
   var posX = -60;
   var speed = .8;
@@ -15,10 +30,10 @@
     if (!paused) {
       posX += speed;
       char.style.left = posX + 'px';
+      tooltip.style.left = (posX + 100) + 'px';
 
       if (posX > window.innerWidth) {
         char.style.display = 'none';
-        localStorage.setItem('booger-walked', '1');
         return;
       }
     }
@@ -31,6 +46,7 @@
 
   char.addEventListener('click', function () {
     if (paused) return;
+    tooltip.style.opacity = '0';
 
     var reactions = [
       'assets/Dr._Booger-_Sleepin-transparent.gif',
