@@ -27,7 +27,7 @@
     });
 
   function createCard(project) {
-    var template = project.template || 'casestudy.html';
+    var template = project.template || 'casestudy/';
     var href = project.slug ? template + '?slug=' + encodeURIComponent(project.slug) : null;
 
     var wrapper = href ? document.createElement('a') : document.createElement('div');

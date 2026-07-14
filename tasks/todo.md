@@ -131,6 +131,21 @@
 - `styles.css`: removed `.project-details` (flex column, align-items flex-end); added `.project-left` (flex column, gap 10px)
 - `project-info` (flex row, space-between) now puts the left column vs pills on opposite ends naturally
 
+## Case study — folder structure + separate Airbnb template
+- [x] Create `casestudy/index.html` — generic template (Executive Design + others), `<base href="../">` handles all paths
+- [x] Create `casestudy-airbnb/index.html` — Airbnb template with accordion intact, same base href approach
+- [x] Update `sanity.js` fallback from `casestudy.html` → `casestudy/`
+- [x] Delete old flat `casestudy.html` and `casestudy-airbnb.html`
+- [x] In Sanity Studio: updated Airbnb, Daisy Edit, Chez Henri template fields to `casestudy/` or `casestudy-airbnb/`
+- [x] Security check — no user input, no innerHTML outside of existing safe patterns, no new vectors
+
+### Review — Case study folder structure
+- Moved case study pages into subdirectories (`casestudy/index.html`, `casestudy-airbnb/index.html`)
+- `<base href="../">` in each `<head>` resolves all relative paths (CSS, assets, scripts) without touching individual URLs
+- Folder URLs (`/casestudy/`) avoid the `.html` stripping issue that was breaking Executive Design navigation
+- `sanity.js` fallback updated to `casestudy/`; Airbnb project points to `casestudy-airbnb/`
+- Executive Information Design uses null template — picks up the `casestudy/` default automatically
+
 ## Organise assets folder
 - [ ] Create assets/ folder and move GIFs with git mv
 - [ ] Update character.js src paths
