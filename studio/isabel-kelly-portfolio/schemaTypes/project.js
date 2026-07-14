@@ -44,10 +44,11 @@ export default defineType({
     }),
     defineField({
       name: 'tags',
-      title: 'Tags',
+      title: 'Card Pills',
       type: 'array',
       of: [{type: 'string'}],
       options: {layout: 'tags'},
+      description: 'Short buzzwords shown as pills on the project card — e.g. "UX", "Figma", "Print"',
     }),
     defineField({
       name: 'order',

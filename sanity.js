@@ -70,8 +70,8 @@
     var pillsDiv = document.createElement('div');
     pillsDiv.className = 'project-pills';
 
-    if (Array.isArray(project.deliverables)) {
-      project.deliverables.forEach(function (item) {
+    if (Array.isArray(project.tags)) {
+      project.tags.forEach(function (item) {
         var pill = document.createElement('span');
         pill.className = 'project-pill';
         pill.textContent = item;
