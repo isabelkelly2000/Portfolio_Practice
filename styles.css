@@ -189,7 +189,7 @@ nav {
   left: 50%;
   top: 50%;
   transform: translate(-51%, -40%);
-  background: url('assets/frame.png') center / contain no-repeat;
+  background: url('assets/home_frame.png') center / contain no-repeat;
   mix-blend-mode: multiply;
   pointer-events: none;
   z-index: -1;
@@ -448,7 +448,6 @@ nav {
 
 /* ── FOOTER ── */
 footer {
-  scroll-snap-align: start;
   border-top: 1px solid var(--color-border);
   padding: 60px var(--space-page) 40px;
   max-width: var(--page-max-width);
@@ -747,8 +746,8 @@ footer {
 .about-page {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  min-height: calc(100vh - 72px);
-  padding: 60px var(--space-page);
+  min-height: 100vh;
+  padding: 140px var(--space-page) 80px;
   gap: 60px;
   align-items: center;
   max-width: 1200px;
@@ -807,25 +806,29 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 }
 
 .about-photo-wrap {
   position: relative;
   width: 100%;
-  max-width: 480px;
+  max-width: 420px;
+  padding: 10%;
+  box-sizing: border-box;
 }
 
 .about-photo {
   display: block;
   width: 100%;
-  height: 50%;
+  height: auto;
+  transform: translate(5%, 5%);
 }
 
 .about-frame {
   position: absolute;
-  inset: -5%;
-  width: 110%;
-  height: 110%;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: fill;
   pointer-events: none;
 }

@@ -8,7 +8,10 @@
     document.documentElement.style.overflow = '';
   }
 
-  if (sessionStorage.getItem('loaderSeen')) {
+  var visits = parseInt(localStorage.getItem('loader-visits') || '0', 10) + 1;
+  localStorage.setItem('loader-visits', visits);
+
+  if (visits % 3 !== 1) {
     skip();
     return;
   }
@@ -28,7 +31,6 @@
   }
 
   function finish() {
-    sessionStorage.setItem('loaderSeen', '1');
     cursor.classList.add('hidden');
     loader.classList.add('fade-out');
     loader.addEventListener('transitionend', function () {
