@@ -15,20 +15,7 @@
 <body>
 
   <!-- NAV -->
-  <nav>
-    <a href="index.html" class="nav-logo">
-      <img class="logo-desktop" src="assets/Name_Lockup_DarkBlue.png" alt="Izzy Kelly" />
-      <img class="logo-mobile" src="assets/IK_Icon_DarkBlue.png" alt="IK" />
-    </a>
-    <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-    <ul class="nav-links">
-      <li><a href="index.html#work">WORK</a></li>
-      <li><a href="about/">ABOUT</a></li>
-      <li><a href="index.html#contact" class="contact-link">CONTACT ME</a></li>
-    </ul>
-  </nav>
+  <div id="site-nav"></div>
 
   <!-- ABOUT -->
   <main class="about-page">
@@ -117,26 +104,7 @@
 
   <img id="character" src="assets/Dr._Booger_-_Walking-transparent.gif" alt="Dr Booger" />
   <script src="character.js"></script>
-  <script>
-    (function () {
-      var nav = document.querySelector('nav');
-      var btn = document.querySelector('.hamburger');
-      var links = document.querySelector('.nav-links');
-      if (!btn) return;
-      btn.addEventListener('click', function () {
-        var open = links.classList.toggle('open');
-        nav.classList.toggle('nav-open', open);
-        btn.setAttribute('aria-expanded', open);
-      });
-      links.querySelectorAll('a').forEach(function (a) {
-        a.addEventListener('click', function () {
-          links.classList.remove('open');
-          nav.classList.remove('nav-open');
-          btn.setAttribute('aria-expanded', 'false');
-        });
-      });
-    })();
-  </script>
+  <script src="nav.js"></script>
 
 </body>
 </html>

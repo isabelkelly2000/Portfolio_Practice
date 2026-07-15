@@ -84,6 +84,24 @@ export default defineType({
       description: 'e.g. "May 2023 – Present"',
     }),
     defineField({
+      name: 'aboutTitle',
+      title: 'About — Section Title',
+      type: 'string',
+      description: 'Heading shown above the About section (also appears in the TOC)',
+    }),
+    defineField({
+      name: 'challengeTitle',
+      title: 'Challenge — Section Title',
+      type: 'string',
+      description: 'Heading shown above the Challenge section (also appears in the TOC)',
+    }),
+    defineField({
+      name: 'solutionTitle',
+      title: 'Solution — Section Title',
+      type: 'string',
+      description: 'Heading shown above the Solution section (also appears in the TOC)',
+    }),
+    defineField({
       name: 'aboutText',
       title: 'About This Project',
       type: 'text',
@@ -103,6 +121,51 @@ export default defineType({
       type: 'text',
       rows: 6,
       description: 'Separate paragraphs with a blank line between them',
+    }),
+    defineField({
+      name: 'solutionText2',
+      title: 'The Solution — Part 2',
+      type: 'text',
+      rows: 6,
+      description: 'Appears after the solution image, before the accordion. Separate paragraphs with a blank line.',
+    }),
+    defineField({
+      name: 'aboutImage',
+      title: 'About — Section Image',
+      type: 'image',
+      options: {hotspot: true},
+      description: 'Optional image shown in the About section',
+    }),
+    defineField({
+      name: 'challengeImage',
+      title: 'Challenge — Section Image',
+      type: 'image',
+      options: {hotspot: true},
+      description: 'Optional image shown in the Challenge section',
+    }),
+    defineField({
+      name: 'solutionImage',
+      title: 'Solution — Section Image',
+      type: 'image',
+      options: {hotspot: true},
+      description: 'Optional image shown in the Solution section',
+    }),
+    defineField({
+      name: 'accordionItems',
+      title: 'Accordion Items',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            defineField({ name: 'title', title: 'Item Title', type: 'string' }),
+            defineField({ name: 'body', title: 'Item Body', type: 'text', rows: 4 }),
+            defineField({ name: 'image', title: 'Item Image (optional)', type: 'image', options: { hotspot: true } }),
+          ],
+          preview: { select: { title: 'title' } },
+        },
+      ],
+      description: 'Each item becomes one collapsible accordion row. Add 2–20 items.',
     }),
     defineField({
       name: 'template',

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <base href="../" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Executive Information Design — Izzy Kelly</title>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <div id="site-nav"></div>
+
+  <!-- PAGE LAYOUT -->
+  <div class="eid-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="eid-sidebar">
+      <a href="index.html#work" class="eid-back">← Back to work</a>
+      <div class="eid-toc" role="navigation" aria-label="Page sections">
+        <a class="eid-toc-link" data-target="overview">Overview</a>
+        <a class="eid-toc-link" data-target="about">About</a>
+        <a class="eid-toc-link" data-target="challenge">Challenge</a>
+        <a class="eid-toc-link" data-target="solution">Solution</a>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="eid-main">
+
+      <!-- OVERVIEW -->
+      <section class="eid-section" data-section="overview">
+
+        <!-- HERO IMAGE -->
+        <div class="eid-hero">
+          <img class="eid-hero-img" id="eid-hero-img" src="" alt="Project hero image" />
+        </div>
+
+        <h1 class="eid-title" id="eid-title">Executive Information Design</h1>
+
+        <!-- META STRIP -->
+        <div class="eid-meta-strip">
+          <div class="eid-meta-item">
+            <h4>CLIENT</h4>
+            <p id="eid-client">—</p>
+          </div>
+          <div class="eid-meta-item">
+            <h4>DELIVERABLES</h4>
+            <ul id="eid-deliverables"></ul>
+          </div>
+          <div class="eid-meta-item">
+            <h4>DATE</h4>
+            <p id="eid-date">—</p>
+          </div>
+          <div class="eid-meta-item">
+            <h4>ROLE</h4>
+            <p id="eid-role">—</p>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ABOUT -->
+      <section class="eid-section" data-section="about">
+        <h2 class="eid-section-title" id="eid-about-title">Project Summary</h2>
+        <div class="eid-body" id="eid-about"></div>
+        <div class="eid-section-image" id="eid-about-img">
+          <img src="" alt="" />
+        </div>
+      </section>
+
+      <!-- CHALLENGE -->
+      <section class="eid-section" data-section="challenge">
+        <h2 class="eid-section-title" id="eid-challenge-title">The Challenge</h2>
+        <div class="eid-body" id="eid-challenge"></div>
+        <div class="eid-section-image" id="eid-challenge-img">
+          <img src="" alt="" />
+        </div>
+      </section>
+
+      <!-- SOLUTION -->
+      <section class="eid-section" data-section="solution">
+        <h2 class="eid-section-title" id="eid-solution-title">Solution</h2>
+        <div class="eid-body" id="eid-solution"></div>
+        <div class="eid-section-image" id="eid-solution-img">
+          <img src="" alt="" />
+        </div>
+
+        <div class="eid-body" id="eid-solution-2"></div>
+
+        <div class="accordion" id="eid-accordion"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="contact">
+    <div class="footer-top">
+      <div class="footer-left">
+        <p class="footer-name">Izzy Kelly</p>
+      </div>
+      <div class="footer-right">
+        <div class="footer-col">
+          <h4>NAVIGATE</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#work">Work</a></li>
+            <li><a href="about/">About</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>CONNECT</h4>
+          <ul>
+            <li><a href="https://linkedin.com/in/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="#">Resume</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>SAY HELLO</h4>
+          <ul>
+            <li><a href="mailto:isabel.kelly2000@gmail.com">Email</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Izzy Kelly. Designed &amp; built by me.</p>
+    </div>
+  </footer>
+
+  <img id="character" src="assets/Dr._Booger_-_Walking-transparent.gif" alt="Dr Booger" />
+  <script src="character.js"></script>
+  <script src="casestudy-eid/eid.js"></script>
+  <script src="nav.js"></script>
+
+</body>
+</html>

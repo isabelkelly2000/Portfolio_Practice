@@ -16,22 +16,7 @@
   </div>
 
   <!-- NAV -->
-  <nav>
-    <a href="#home" class="nav-logo">
-      <img class="logo-desktop" src="assets/Name_Lockup_DarkBlue.png" alt="Izzy Kelly" />
-      <img class="logo-mobile" src="assets/IK_Icon_DarkBlue.png" alt="IK" />
-    </a>
-    <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-    <ul class="nav-links">
-      <li><a href="#work">WORK</a></li>
-      <li><a href="about/">ABOUT</a></li>
-      <li><a href="#contact" class="contact-link">CONTACT ME</a></li>
-    </ul>
-  </nav>
+  <div id="site-nav"></div>
 
   <!-- HERO -->
   <section id="home">
@@ -75,7 +60,6 @@
     <div class="footer-top">
       <div class="footer-left">
         <p class="footer-name"><img src="assets/Name_Lockup_DarkBlue.png" alt="Izzy Kelly"></p>
-        <p class="footer-tagline">Experience Designer &nbsp;·&nbsp; Open to opportunities</p>
       </div>
       <div class="footer-right">
         <div class="footer-col">
@@ -97,7 +81,7 @@
         <div class="footer-col">
           <h4>SAY HELLO</h4>
           <ul>
-            <li><a href="mailto:hello@izzzkelly.com">Email</a></li>
+            <li><a href="mailto:isabel.kelly2000@gmail.com">Email</a></li>
           </ul>
         </div>
       </div>
@@ -113,26 +97,6 @@
   <script src="loader.js"></script>
   <script src="character.js"></script>
   <script src="sanity.js"></script>
-  <script>
-    (function () {
-      var nav = document.querySelector('nav');
-      var btn = document.querySelector('.hamburger');
-      var links = document.querySelector('.nav-links');
-
-      btn.addEventListener('click', function () {
-        var open = links.classList.toggle('open');
-        nav.classList.toggle('nav-open', open);
-        btn.setAttribute('aria-expanded', open);
-      });
-
-      links.querySelectorAll('a').forEach(function (a) {
-        a.addEventListener('click', function () {
-          links.classList.remove('open');
-          nav.classList.remove('nav-open');
-          btn.setAttribute('aria-expanded', 'false');
-        });
-      });
-    })();
-  </script>
+  <script src="nav.js"></script>
 </body>
 </html>
