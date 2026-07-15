@@ -1,5 +1,23 @@
 # Portfolio To-Do
 
+## Airbnb Icons — New Case Study Page
+- [x] Step 1 — Add `resultsImages` (array of images) to the Sanity project schema
+- [x] Step 2 — Create `casestudy-airbnb-icons/index.html`: sidebar TOC (Overview, About, Challenge, Solution, Results), hero, meta strip, 4 content sections, Results section with horizontal scroll image strip. No accordion.
+- [x] Step 3 — Create `casestudy-airbnb-icons/airbnb-icons.js`: same Sanity fetch as `eid.js` but with `ai-` prefixed IDs, no accordion builder, adds `resultsImages` to the query and builds the horizontal image strip
+- [x] Step 4 — Add CSS for horizontal image strip (filmstrip scroll, images side by side) + progress bar that tracks scroll position
+- [ ] Step 5 — In Sanity Studio: create "Airbnb Icons" project document, set template to `casestudy-airbnb-icons/`
+- [x] Step 6 — Security check
+- [x] Step 7 — Add review section to todo.md
+
+### Review — Airbnb Icons Case Study
+- New `casestudy-airbnb-icons/` folder mirrors the EID pattern: `index.html` + `airbnb-icons.js`
+- TOC has 5 entries: Overview, About, Challenge, Solution, Results — same sticky sidebar, same scroll offset fix
+- No accordion — Solution section ends after `solutionText2`
+- Results section: `<div class="ai-strip">` holds horizontally scrollable images; `<div class="ai-strip-bar">` updates its width on the strip's `scroll` event as a progress bar
+- Sanity schema: added `resultsImages` (array of images) to `project.js` — Studio picks it up on next restart
+- `airbnb-icons.js` GROQ query fetches `resultsImages[].asset->url`, builds `<img>` elements via `img.src` (not innerHTML)
+- Security: no write tokens, slug URL-encoded before API call, all text via textContent or controlled regex, no XSS vectors
+
 ## Design Token System
 - [x] Define all tokens as CSS custom properties in `:root` (colors, fonts, spacing, radius, shadow)
 - [x] Replace all hardcoded hex colors with `var(--color-*)` tokens

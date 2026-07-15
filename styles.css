@@ -896,7 +896,8 @@ footer {
   gap: 14px;
 }
 
-.eid-toc-link {
+.eid-toc-link,
+.ai-toc-link {
   font-size: 13px;
   color: var(--color-text-muted);
   font-weight: 400;
@@ -905,7 +906,8 @@ footer {
   text-decoration: none;
 }
 
-.eid-toc-link.active {
+.eid-toc-link.active,
+.ai-toc-link.active {
   font-weight: 700;
   color: var(--color-heading);
 }
@@ -941,7 +943,7 @@ footer {
 
 .eid-meta-strip {
   display: flex;
-  gap: 32px;
+  gap: 64px;
   flex-wrap: nowrap;
   padding: 28px 0;
   margin-top: 28px;
@@ -1008,17 +1010,22 @@ footer {
 
 @media (max-width: 900px) {
   .eid-layout {
-    grid-template-columns: 1fr;
-    padding: 120px var(--space-page-mobile) 80px;
-    gap: 32px;
+    display: block;
+    padding: 100px 0 80px;
   }
 
   .eid-sidebar {
-    position: static;
+    position: sticky;
+    top: 64px;
+    z-index: 10;
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
     flex-direction: row;
     align-items: center;
     gap: 20px;
     flex-wrap: wrap;
+    padding: 12px var(--space-page-mobile);
+    width: 100%;
   }
 
   .eid-toc {
@@ -1026,7 +1033,182 @@ footer {
     gap: 16px;
   }
 
+  .eid-main {
+    padding: 32px var(--space-page-mobile) 0;
+  }
+
   .eid-meta-strip { gap: 28px; }
+}
+
+/* ── AIRBNB ICONS — RESULTS STRIP ── */
+.ai-strip-outer {
+  margin-top: 48px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ai-strip-wrap {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+
+
+.ai-strip {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 4px;
+}
+
+.ai-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.ai-strip-img {
+  height: 624px;
+  width: auto;
+  flex-shrink: 0;
+  border-radius: var(--radius-image-block);
+  display: block;
+}
+
+.ai-strip-track {
+  margin-top: 16px;
+  height: 3px;
+  background: var(--color-border);
+  border-radius: 100px;
+  position: relative;
+}
+
+.ai-strip-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 80px;
+  background: var(--color-heading);
+  border-radius: 100px;
+  transition: transform 0.05s linear;
+}
+
+.ai-strip-arrow {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-heading);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s, background 0.15s;
+}
+
+.ai-strip-arrow:hover {
+  background: var(--color-surface);
+}
+
+.ai-strip-arrow svg {
+  width: 18px;
+  height: 18px;
+}
+
+.ai-strip-arrow.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ai-strip-img {
+  cursor: zoom-in;
+}
+
+/* Lightbox */
+.ai-lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.94);
+  z-index: 900;
+  display: none;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.ai-lightbox.open {
+  opacity: 1;
+}
+
+.ai-lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 24px;
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  opacity: 0.6;
+  padding: 4px;
+  line-height: 0;
+  transition: opacity 0.15s;
+  z-index: 1;
+}
+
+.ai-lightbox-close:hover {
+  opacity: 1;
+}
+
+.ai-lightbox-close svg {
+  width: 24px;
+  height: 24px;
+}
+
+.ai-lightbox-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  padding: 0 48px;
+}
+
+.ai-lightbox-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.ai-lightbox-img {
+  height: 80vh;
+  width: auto;
+  display: block;
+  border-radius: var(--radius-image-block);
+}
+
+.ai-lightbox-track {
+  margin: 20px 48px 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 100px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.ai-lightbox-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 80px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 100px;
+  transition: transform 0.05s linear;
 }
 
 /* ── CHARACTER ── */
@@ -1098,6 +1280,10 @@ footer {
   nav.nav-open .hamburger span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   nav.nav-open .hamburger span:nth-child(2) { opacity: 0; }
   nav.nav-open .hamburger span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  #work           { flex-direction: column; gap: 0; }
+  .work-sidebar   { position: static; width: 100%; padding: 40px var(--space-page-mobile) 16px; }
+  .projects-grid  { padding: 0 0 48px; }
 }
 
 @media (max-width: 580px) {

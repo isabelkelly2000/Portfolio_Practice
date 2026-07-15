@@ -168,6 +168,13 @@ export default defineType({
       description: 'Each item becomes one collapsible accordion row. Add 2–20 items.',
     }),
     defineField({
+      name: 'resultsImages',
+      title: 'Results — Image Strip',
+      type: 'array',
+      of: [{ type: 'image', options: { hotspot: true } }],
+      description: 'Images shown in the horizontal scroll strip in the Results section. Upload in order left to right.',
+    }),
+    defineField({
       name: 'template',
       title: 'Case Study Template',
       type: 'string',

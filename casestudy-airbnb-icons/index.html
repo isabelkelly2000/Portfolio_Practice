@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <base href="../" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Airbnb Icons — Izzy Kelly</title>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <div id="site-nav"></div>
+
+  <!-- PAGE LAYOUT -->
+  <div class="eid-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="eid-sidebar">
+      <a href="index.html#work" class="eid-back">← Back to work</a>
+      <div class="eid-toc" role="navigation" aria-label="Page sections">
+        <a class="ai-toc-link" data-target="overview">Overview</a>
+        <a class="ai-toc-link" data-target="about">About</a>
+        <a class="ai-toc-link" data-target="challenge">Challenge</a>
+        <a class="ai-toc-link" data-target="solution">Solution</a>
+        <a class="ai-toc-link" data-target="results">Results</a>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="eid-main">
+
+      <!-- OVERVIEW -->
+      <section class="eid-section" data-section="overview">
+        <div class="eid-hero">
+          <img class="eid-hero-img" id="ai-hero-img" src="" alt="Project hero image" />
+        </div>
+        <h1 class="eid-title" id="ai-title">Airbnb Icons</h1>
+        <div class="eid-meta-strip">
+          <div class="eid-meta-item">
+            <h4>CLIENT</h4>
+            <p id="ai-client">—</p>
+          </div>
+          <div class="eid-meta-item">
+            <h4>DELIVERABLES</h4>
+            <ul id="ai-deliverables"></ul>
+          </div>
+          <div class="eid-meta-item">
+            <h4>DATE</h4>
+            <p id="ai-date">—</p>
+          </div>
+          <div class="eid-meta-item">
+            <h4>ROLE</h4>
+            <p id="ai-role">—</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section class="eid-section" data-section="about">
+        <h2 class="eid-section-title" id="ai-about-title">About</h2>
+        <div class="eid-body" id="ai-about"></div>
+        <div class="eid-section-image" id="ai-about-img">
+          <img src="" alt="" />
+        </div>
+      </section>
+
+      <!-- CHALLENGE -->
+      <section class="eid-section" data-section="challenge">
+        <h2 class="eid-section-title" id="ai-challenge-title">The Challenge</h2>
+        <div class="eid-body" id="ai-challenge"></div>
+        <div class="eid-section-image" id="ai-challenge-img">
+          <img src="" alt="" />
+        </div>
+      </section>
+
+      <!-- SOLUTION -->
+      <section class="eid-section" data-section="solution">
+        <h2 class="eid-section-title" id="ai-solution-title">Solution</h2>
+        <div class="eid-body" id="ai-solution"></div>
+        <div class="eid-section-image" id="ai-solution-img">
+          <img src="" alt="" />
+        </div>
+        <div class="eid-body" id="ai-solution-2"></div>
+      </section>
+
+      <!-- RESULTS -->
+      <section class="eid-section" data-section="results">
+        <h2 class="eid-section-title" id="ai-results-title">Results</h2>
+        <div class="eid-body" id="ai-results"></div>
+
+        <div class="ai-strip-outer">
+          <button class="ai-strip-arrow ai-strip-arrow--left hidden" id="ai-arrow-left" aria-label="Scroll left">
+            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="ai-strip-wrap" id="ai-strip-wrap">
+            <div class="ai-strip" id="ai-strip"></div>
+            <div class="ai-strip-track">
+              <div class="ai-strip-bar" id="ai-strip-bar"></div>
+            </div>
+          </div>
+          <button class="ai-strip-arrow ai-strip-arrow--right" id="ai-arrow-right" aria-label="Scroll right">
+            <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7.5 5L12.5 10L7.5 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <div id="site-footer"></div>
+
+  <img id="character" src="assets/Dr._Booger_-_Walking-transparent.gif" alt="Dr Booger" />
+  <script src="character.js"></script>
+  <script src="casestudy-airbnb-icons/airbnb-icons.js"></script>
+  <script src="nav.js"></script>
+  <script src="footer.js"></script>
+
+</body>
+</html>
