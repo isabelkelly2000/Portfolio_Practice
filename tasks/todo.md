@@ -1,5 +1,60 @@
 # Portfolio To-Do
 
+## Daisy Edit — section images as an arrow carousel with dot indicator
+- [x] `daisy-edit.js`: replace the static `.da-media-grid` (all images shown at once) with a carousel when a section has more than one image — one image visible at a time, left/right arrow buttons (reusing the same chevron SVGs as the Results strip arrows), and a row of dots below indicating position. Clicking a dot jumps to that image; arrows wrap around at the ends. A section with exactly one image still renders as a plain single image (no controls).
+- [x] CSS: add `.da-carousel`, `.da-carousel-viewport`, `.da-carousel-arrow` (reuse `.ai-strip-arrow` styling), `.da-carousel-dots`, `.da-carousel-dot` (`.active` state)
+- [x] Security check
+- [x] Add review section
+
+### Review — Section image carousel
+- `daisy-edit.js`: `buildSections()` now branches on image count — 0 images renders nothing, 1 renders a plain `.da-media-single` image, 2+ renders `buildCarousel()`
+- `buildCarousel()`: tracks current index in closure state; left/right arrows and dot clicks all funnel through one `goTo(index)` that wraps around (`(index + urls.length) % urls.length`), swaps the viewport image's `src`, and toggles `.active` on the matching dot
+- Arrow buttons reuse the exact chevron SVG paths from the Results strip arrows for visual consistency
+- CSS: `.da-carousel-arrow` reuses the circular `.ai-strip-arrow` look; `.da-carousel-dots` is a centered row of 7px dots, active dot scaled up and filled with `--color-heading`
+- Verified against live data: The Reskin section (3 real uploaded images) — carousel renders with 3 dots, right-arrow click advances image + active dot, direct dot click jumps to that image, no console errors
+- Security: no user input beyond click events, no innerHTML from CMS data (only the two static SVG arrow strings, which are hardcoded), image `src` values still come only from Sanity CDN asset URLs
+
+### Follow-up — slide animation
+- Reworked the carousel from a single `<img>` with swapped `src` to a `.da-carousel-track` holding all images side by side in a flex row; `goTo()` now sets `track.style.transform = translateX(-current * 100%)` instead of swapping `src`
+- CSS: `.da-carousel-track { transition: transform 0.5s ease-in-out }` — arrows and dots now produce a real sliding motion between images instead of an instant swap
+- Verified mid-transition via headless browser: transform sampled partway through differed from both the start and end values, confirming the animation runs rather than jumping
+- Security: no change to data flow, same CDN-only image sources
+
+## Daisy Edit — new case study template with repeatable sections + before/after images
+- [x] Schema (`project.js`): add `narrativeSections` array field — each item has `title` (string), `body` (text, paragraphs via blank line), and `media` (array of `{before image, after image (optional), caption (optional)}` pairs). An item with no `after` renders as a single image; with both, renders as a before/after pair.
+- [x] Create `casestudy-daisy-edit/index.html`: reuses `.eid-layout`/`.eid-hero`/`.eid-meta-strip`/`.eid-body` styling from EID/Icons. Sidebar TOC starts with a static "Overview" link; remaining links are built dynamically in JS from `narrativeSections` (since section count/titles vary per project).
+- [x] Create `casestudy-daisy-edit/daisy-edit.js`: same Sanity fetch + IntersectionObserver/scroll-to TOC pattern as `airbnb-icons.js`/`eid.js`. Renders Overview (hero, title, subtitle, meta strip, intro via existing `aboutText` field, no heading), then one `<section>` per `narrativeSections` item with heading + body + before/after media grid.
+- [x] CSS: add a before/after grid component (`.da-media-grid`, `.da-baf-card` with before/after images side by side + optional labels/caption) using existing design tokens and `--radius-image-block`, responsive down to mobile.
+- [ ] In Sanity Studio: set Daisy Edit project's `template` field to `casestudy-daisy-edit/` (currently `casestudy-airbnb-icons/`) — **user action, needs Studio UI**
+- [x] Security check
+- [x] Add review section
+
+### Review — Daisy Edit template
+- `project.js`: added `narrativeSections` (array of `{title, body, media[]}`), where `media` is a plain array of images (same pattern as the existing `resultsImages` field) — mirrors established patterns, so the schema stays minimal
+- Simplified from an earlier before/after-pair design: user will denote before/after state within the image itself, so `media` is just an ordered image gallery, not paired objects
+- `casestudy-daisy-edit/index.html`: same `.eid-layout` shell as EID/Icons (sidebar TOC, hero, meta strip). Only "Overview" is hardcoded in the TOC — remaining links are appended by JS to match however many `narrativeSections` a project has
+- `casestudy-daisy-edit/daisy-edit.js`: fetches by `?slug=`, renders overview fields + `aboutText` as the unheaded intro, then builds one `<section>` per narrative section (heading, paragraph-split body with `**bold**` support, and an image grid). TOC links + IntersectionObserver scroll-spy are wired up after sections are built, since section count is dynamic
+- `styles.css`: added `.da-tagline` (subtitle line under the title) and `.da-media-grid`/`.da-media-img` (responsive image grid, single column under 700px)
+- Verified: schema change loaded cleanly in Sanity Studio (no errors), the GROQ query returns correctly against live data (gracefully handles `narrativeSections` still being empty), JS passes `node --check`
+- Still needed: client/deliverables/date/subtitle/intro fields in Studio, upload section images, remove leftover `*[Before/after ...]*` placeholder lines from section bodies
+- Security: all dynamic content set via `textContent` or the same vetted `**bold**` regex already used elsewhere (no raw HTML from CMS); images set via `img.src` from Sanity CDN asset URLs only; no write tokens or credentials in any frontend file; no user input, no `eval`
+
+### Bug fix — narrative section body text not rendering
+- `buildSections()` created each section's body `<div>`, appended it to the (still-detached) `sectionEl`, then called `setBodyText(bodyEl.id, ...)`, which looked the element up via `document.getElementById()`. Since the section wasn't attached to `document` yet at that point, the lookup silently failed and the id-based `setBodyText` bailed out with no error — headings rendered, bodies stayed empty
+- Fix: split the paragraph-building logic into `appendBodyText(el, text)`, which operates directly on an element reference instead of looking one up by id. `buildSections()` now calls `appendBodyText(bodyEl, section.body)` before appending to the DOM; `setBodyText(id, text)` (used for the static `da-intro` element, which is already in the document) delegates to it
+- Verified via headless browser: all 7 sections now render their body paragraphs correctly
+- Security: pure logic fix, no new attack surface
+
+## About bio — preserve blank lines between paragraphs
+- [x] Add `white-space: pre-line;` to `.about-body` in `styles.css` so blank lines in the Sanity `bio` text render as paragraph gaps
+- [x] Security check
+- [x] Add review section
+
+### Review — About bio blank lines
+- `styles.css`: added `white-space: pre-line;` to `.about-body` — preserves newlines (including blank lines between paragraphs) from the Sanity `bio` text field while still wrapping normally
+- No JS or HTML changes needed — the fix is purely CSS
+- Security: pure CSS change, no user input, no new attack surface
+
 ## About Page — Sanity Integration
 - [x] Step 1 — Create `schemaTypes/about.js`: singleton document with `bio` (text), `spotifyUrl`, `linkedinUrl`, `instagramUrl` (url) fields
 - [x] Step 2 — Register `about` in `schemaTypes/index.js`

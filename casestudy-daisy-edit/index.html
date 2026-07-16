@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <base href="../" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Daisy Edit — Izzy Kelly</title>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <div id="site-nav"></div>
+
+  <!-- PAGE LAYOUT -->
+  <div class="eid-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="eid-sidebar">
+      <a href="index.html" class="eid-back">← Back to work</a>
+      <div class="eid-toc" role="navigation" aria-label="Page sections" id="da-toc">
+        <a class="ai-toc-link active" data-target="overview">Overview</a>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="eid-main">
+
+      <!-- OVERVIEW -->
+      <section class="eid-section" data-section="overview">
+        <div class="eid-hero">
+          <img class="eid-hero-img" id="da-hero-img" src="" alt="Project hero image" />
+        </div>
+        <h1 class="eid-title" id="da-title">The Daisy Edit</h1>
+        <p class="da-tagline" id="da-subtitle"></p>
+        <div class="eid-meta-strip">
+          <div class="eid-meta-item">
+            <h4>CLIENT</h4>
+            <p id="da-client">—</p>
+          </div>
+          <div class="eid-meta-item">
+            <h4>DELIVERABLES</h4>
+            <ul id="da-deliverables"></ul>
+          </div>
+          <div class="eid-meta-item">
+            <h4>DATE</h4>
+            <p id="da-date">—</p>
+          </div>
+          <div class="eid-meta-item">
+            <h4>ROLE</h4>
+            <p id="da-role">—</p>
+          </div>
+        </div>
+        <div class="eid-body" id="da-intro"></div>
+      </section>
+
+      <!-- NARRATIVE SECTIONS (built dynamically from Sanity) -->
+      <div id="da-sections"></div>
+
+    </main>
+  </div>
+
+  <!-- FOOTER -->
+  <div id="site-footer"></div>
+
+  <img id="character" src="assets/Dr._Booger_-_Walking-transparent.gif" alt="Dr Booger" />
+  <script src="character.js"></script>
+  <script src="casestudy-daisy-edit/daisy-edit.js"></script>
+  <script src="nav.js"></script>
+  <script src="footer.js"></script>
+
+</body>
+</html>

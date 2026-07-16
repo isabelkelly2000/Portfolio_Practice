@@ -1,4 +1,13 @@
 (function () {
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+  window.addEventListener('pageshow', function () {
+    if (!window.location.hash) {
+      window.scrollTo(0, 0);
+    }
+  });
+
   var isRoot = window.location.pathname === '/' || /\/index\.html$/.test(window.location.pathname);
   var workHref    = isRoot ? '#work'    : 'index.html#work';
   var contactHref = isRoot ? '#contact' : 'index.html#contact';
@@ -30,6 +39,27 @@
   var nav   = document.querySelector('nav');
   var btn   = document.querySelector('.hamburger');
   var links = document.querySelector('.nav-links');
+
+  var contactLink = document.querySelector('.contact-link');
+  if (contactLink) {
+    var PROJECT_ID = 'rk7q4uop';
+    var DATASET = 'production';
+    var query = '*[_type == "about"][0]{ linkedinUrl }';
+    var aboutUrl = 'https://' + PROJECT_ID + '.apicdn.sanity.io/v2021-10-21/data/query/' + DATASET
+      + '?query=' + encodeURIComponent(query);
+
+    fetch(aboutUrl)
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        var linkedinUrl = data.result && data.result.linkedinUrl;
+        if (!linkedinUrl) return;
+        contactLink.href = linkedinUrl;
+        contactLink.target = '_blank';
+        contactLink.rel = 'noopener noreferrer';
+      })
+      .catch(function (err) { console.error('LinkedIn link fetch failed:', err); });
+  }
+
   if (!btn) return;
 
   btn.addEventListener('click', function () {

@@ -175,6 +175,36 @@ export default defineType({
       description: 'Images shown in the horizontal scroll strip in the Results section. Upload in order left to right.',
     }),
     defineField({
+      name: 'narrativeSections',
+      title: 'Narrative Sections',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          name: 'narrativeSection',
+          fields: [
+            defineField({ name: 'title', title: 'Section Title', type: 'string' }),
+            defineField({
+              name: 'body',
+              title: 'Section Body',
+              type: 'text',
+              rows: 6,
+              description: 'Separate paragraphs with a blank line between them',
+            }),
+            defineField({
+              name: 'media',
+              title: 'Section Images',
+              type: 'array',
+              of: [{ type: 'image', options: { hotspot: true } }],
+              description: 'Upload any number of images for this section, in order. Denote before/after state within the image itself if needed.',
+            }),
+          ],
+          preview: { select: { title: 'title' } },
+        },
+      ],
+      description: 'Each item becomes one section on the page (heading + body + optional before/after images), in the order listed.',
+    }),
+    defineField({
       name: 'template',
       title: 'Case Study Template',
       type: 'string',
