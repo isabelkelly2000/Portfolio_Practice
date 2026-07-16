@@ -1,5 +1,21 @@
 # Portfolio To-Do
 
+## About Page — Sanity Integration
+- [x] Step 1 — Create `schemaTypes/about.js`: singleton document with `bio` (text), `spotifyUrl`, `linkedinUrl`, `instagramUrl` (url) fields
+- [x] Step 2 — Register `about` in `schemaTypes/index.js`
+- [x] Step 3 — Add `id` hooks to `about/index.html` (`about-bio`, `about-spotify`, `about-linkedin`, `about-instagram`); link `about/about.js`
+- [x] Step 4 — Create `about/about.js`: fetches `*[_type == "about"][0]` from Sanity CDN, populates bio via `textContent` and social hrefs via `el.href`
+- [x] Step 5 — Restart Sanity Studio to pick up new schema
+- [x] Step 6 — Security check
+- [x] Step 7 — Add review
+
+### Review — About Page Sanity Integration
+- New `about` document type in Sanity: one document, no slug needed — queried with `[0]`
+- Fields: `bio` (text, multi-line), `spotifyUrl`, `linkedinUrl`, `instagramUrl` (url type)
+- `about/about.js`: single GROQ fetch, no parameters — bio via `textContent` (no XSS), social links set on `href` only
+- `about/index.html`: Lorem ipsum replaced with empty `<p id="about-bio">`, hardcoded social hrefs replaced with `#` + id hooks
+- Security: no credentials, no innerHTML, no eval, no user input — nothing exploitable
+
 ## Airbnb Icons — New Case Study Page
 - [x] Step 1 — Add `resultsImages` (array of images) to the Sanity project schema
 - [x] Step 2 — Create `casestudy-airbnb-icons/index.html`: sidebar TOC (Overview, About, Challenge, Solution, Results), hero, meta strip, 4 content sections, Results section with horizontal scroll image strip. No accordion.
