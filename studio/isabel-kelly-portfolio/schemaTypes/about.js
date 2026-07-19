@@ -15,9 +15,9 @@ export default defineType({
     }),
     defineField({
       name: 'spotifyUrl',
-      title: 'Spotify URL',
+      title: 'Spotify Playlist URL',
       type: 'url',
-      description: 'Link to your Spotify profile.',
+      description: 'Link to your Spotify playlist (Spotify → playlist → Share → Copy link to playlist). Used for both the Spotify icon and the live playlist embed.',
     }),
     defineField({
       name: 'linkedinUrl',
@@ -30,6 +30,12 @@ export default defineType({
       title: 'Instagram URL',
       type: 'url',
       description: 'Link to your Instagram profile.',
+    }),
+    defineField({
+      name: 'instagramWidgetUrl',
+      title: 'Instagram Widget Embed URL',
+      type: 'url',
+      description: 'The iframe "src" URL from your LightWidget embed (lightwidget.com — create a free widget connected to your Instagram account, then copy the src from the generated iframe code, e.g. "//lightwidget.com/widgets/xxxxxx.html").',
     }),
   ],
   preview: {

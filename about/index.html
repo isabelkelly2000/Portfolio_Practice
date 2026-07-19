@@ -23,31 +23,20 @@
     <div class="about-left">
       <h1 class="about-heading">About me</h1>
       <p class="about-body" id="about-bio"></p>
-      <div class="about-socials">
-        <a href="#" id="about-spotify" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Spotify">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
-            <path d="M7.5 10.8C10 9.5 14 9.7 16.5 11.2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M8 13.2C10 12.2 13.5 12.2 15.5 13.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M8.5 15.5C10 14.8 12.5 14.8 14.5 15.9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </a>
-        <a href="#" id="about-linkedin" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2.5" y="2.5" width="19" height="19" rx="3" stroke="currentColor" stroke-width="1.5"/>
-            <circle cx="8" cy="8.5" r="1.1" fill="currentColor"/>
-            <path d="M8 11.5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M12 16.5v-3c0-1.5 1-2.5 2.5-2.5S17 12.5 17 14v2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <path d="M12 11.5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </a>
-        <a href="#" id="about-instagram" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="2.5" y="2.5" width="19" height="19" rx="5" stroke="currentColor" stroke-width="1.5"/>
-            <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/>
-            <circle cx="17.5" cy="6.5" r="1.1" fill="currentColor"/>
-          </svg>
-        </a>
+
+      <div class="about-embeds">
+        <div class="embed-block embed-spotify" id="spotify-embed" hidden>
+          <h2 class="embed-subtitle">some of my music</h2>
+          <div class="embed-wrap">
+            <iframe src="" width="100%" height="152" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Spotify playlist"></iframe>
+          </div>
+        </div>
+        <div class="embed-block embed-instagram" id="instagram-embed" hidden>
+          <h2 class="embed-subtitle">my fiber arts endeavors</h2>
+          <div class="embed-wrap">
+            <iframe src="" scrolling="no" allowtransparency="true" class="lightwidget-widget" style="width:100%;border:0;overflow:hidden;" loading="lazy" title="Instagram feed"></iframe>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -65,6 +54,7 @@
 
   <img id="character" src="assets/Dr._Booger_-_Walking-transparent.gif" alt="Dr Booger" />
   <script src="character.js"></script>
+  <script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script>
   <script src="about/about.js"></script>
   <script src="nav.js"></script>
   <script src="footer.js"></script>

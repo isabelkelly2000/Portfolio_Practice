@@ -760,23 +760,28 @@ footer {
 
 /* ── ABOUT PAGE ── */
 .about-page {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
   padding: 140px var(--space-page) 80px;
-  gap: 60px;
-  align-items: center;
-  max-width: 1200px;
+  gap: 40px;
+  max-width: var(--page-max-width);
   margin: 0 auto;
 }
 
-.about-left {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  text-align: right;
-  gap: 36px;
+.about-left,
+.about-right {
+  display: contents;
 }
+
+.about-left {
+  text-align: left;
+}
+
+.about-heading { order: 1; }
+.about-photo-wrap { order: 2; }
+.about-body { order: 3; }
+.about-embeds { order: 4; }
 
 .about-heading {
   font-family: var(--font-display);
@@ -784,53 +789,62 @@ footer {
   color: var(--color-heading);
   margin: 0;
   line-height: 1.1;
+  text-align: center;
 }
 
 .about-body {
   font-size: 1rem;
   line-height: 1.75;
   color: var(--color-text);
-  max-width: 400px;
-  margin: 0;
+  max-width: 85ch;
+  margin: 0 auto;
   white-space: pre-line;
 }
 
-.about-socials {
+.about-embeds {
   display: flex;
-  gap: 20px;
-  align-items: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 28px;
+  width: 100%;
+  max-width: 85ch;
+  margin: 0 auto;
 }
 
-.social-icon {
+.embed-block {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1 1 300px;
+  min-width: 0;
+}
+
+.embed-subtitle {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 400;
   color: var(--color-heading);
-  text-decoration: none;
-  transition: opacity 0.2s;
+  margin: 0;
 }
 
-.social-icon:hover {
-  opacity: 0.5;
-}
-
-.social-icon svg {
-  width: 32px;
-  height: 32px;
-}
-
-.about-right {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.embed-wrap {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
   overflow: hidden;
+}
+
+.embed-wrap iframe {
+  display: block;
+  width: 100%;
+  border: none;
 }
 
 .about-photo-wrap {
   position: relative;
   width: 100%;
   max-width: 420px;
-  padding: 10%;
+  margin: 0 auto;
+  padding: 42px;
   box-sizing: border-box;
 }
 
@@ -852,15 +866,20 @@ footer {
 
 @media (max-width: 900px) {
   .about-page {
-    grid-template-columns: 1fr;
-    padding: var(--space-page-mobile);
-    gap: 48px;
+    padding: 120px var(--space-page-mobile) 80px;
+    gap: 32px;
     min-height: unset;
   }
 
-  .about-right { order: -1; }
+  .about-photo-wrap { max-width: 288px; }
 
-  .about-photo-wrap { max-width: 360px; }
+  .about-body { margin: 0; }
+
+  .about-embeds {
+    flex-direction: column;
+    max-width: 400px;
+    margin: 0;
+  }
 }
 
 /* ── EID CASE STUDY ── */

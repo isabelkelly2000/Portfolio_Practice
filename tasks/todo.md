@@ -1,5 +1,28 @@
 # Portfolio To-Do
 
+## Live Instagram feed + Spotify playlist embeds on About page (2026-07-18)
+- [x] Repurposed existing `spotifyUrl` field description to be your playlist link (used for both the icon link and the new embed — decided over keeping them separate); added one new Sanity field `instagramWidgetUrl` (SnapWidget iframe src) to the `about` schema
+- [x] Updated `about/about.js` GROQ query to fetch `instagramWidgetUrl`
+- [x] Added a Spotify embed iframe (built from `spotifyUrl`, converting the playlist link into embed form) and an Instagram embed iframe (from `instagramWidgetUrl`) to `about/index.html`, placed near the existing socials row on the About/Contact page
+- [x] Wired `about.js` to set each iframe's `src` from Sanity data; hides the embed block gracefully if the field is empty
+- [x] Added responsive CSS in `styles.css` for the embeds — stacked column, capped at 400px wide to match the existing bio text column, which already shrinks correctly on tablet/mobile via the existing `.about-page` breakpoint
+- [ ] You'll need to:
+  - Update `spotifyUrl` in Sanity Studio to your playlist's share link (Spotify → playlist → Share → Copy link to playlist)
+  - Create a free widget at snapwidget.com (connect your IG account) and paste the generated iframe `src` into the new `instagramWidgetUrl` field
+- [x] Verified locally via a static server that the page still renders correctly with the new (currently empty/hidden) embed blocks — **could not visually verify in an actual browser window in this environment**, so please double check the layout yourself once you've added real URLs
+- [x] Security check
+- [x] Add review section
+
+### Review — Instagram + Spotify embeds
+- Reused the existing `spotifyUrl` Sanity field (previously just a profile link) as the single source for both the Spotify icon and the new playlist embed — avoids duplicate fields to keep in sync.
+- Added one new field, `instagramWidgetUrl`, for the SnapWidget iframe URL you'll generate at snapwidget.com. Instagram has no official live-feed embed, so a third-party widget is required for this to update automatically.
+- Both embeds are hidden by default and only appear once you fill in their respective Sanity fields — nothing breaks on the live site in the meantime.
+- Embeds sit in a new `.about-embeds` block under the bio/socials, capped at 400px wide (matching the existing bio column) so they inherit the page's existing responsive behavior at the 900px tablet/mobile breakpoint — no new breakpoint needed.
+- Security: no API keys, tokens, or private credentials were added anywhere in the frontend. The Sanity query still uses the existing public, read-only `apicdn.sanity.io` endpoint. Both iframe `src` values come only from your own Sanity CMS content (not from any user/visitor input), so there's no injection or XSS vector introduced.
+- **Update (2026-07-18)**: Spotify confirmed working — verified the playlist URL you added resolves to a valid embed (HTTP 200). Switched the Instagram widget provider from SnapWidget to **LightWidget** after you found SnapWidget required payment; LightWidget's free plan needs no card. Updated the Sanity field description and iframe attributes (`scrolling="no"`, `allowtransparency="true"`) to match LightWidget's embed format. Schema field `instagramWidgetUrl` is unchanged, just needs the LightWidget src now instead of SnapWidget's.
+- **Not yet done on your end**: create a widget at lightwidget.com (connect your Instagram, generate the widget), copy the `src` from its iframe code, and paste it into `instagramWidgetUrl` in Sanity Studio for the Instagram embed to appear.
+- **Testing caveat**: I confirmed the HTML/CSS/JS are wired correctly and the page serves without errors, but I don't have a browser available in this environment to visually confirm the rendered layout — please preview the About page yourself (locally and/or on your phone) once real embed URLs are in place, especially to check iframe sizing on mobile.
+
 ## Rebuild deploy zip for dad (2026-07-19)
 - [x] Renamed `assets/Me Image.png` → `assets/me_image.png` (per your request) — a space in a filename risks getting mangled by upload tools/URLs; updated the one reference in `about/index.html` to match
 - [x] Audited every `assets/`/`fonts/` reference across all live pages/scripts against the actual filenames on disk, case-sensitive — all match (this is the same class of bug that broke the Contact Me image before)
