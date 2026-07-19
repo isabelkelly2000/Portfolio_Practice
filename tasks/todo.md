@@ -1,5 +1,40 @@
 # Portfolio To-Do
 
+## Pre-zip cleanup — dead links + grammar (2026-07-16)
+- [x] `footer.js`: wire real LinkedIn URL from Sanity `about` doc (same pattern as `nav.js`), replacing hardcoded dead `linkedin.com/in/`
+- [x] `footer.js`: wire real Instagram URL from Sanity `about` doc, replacing dead `href="#"`
+- [x] Sanity `about` doc: capitalize "i" → "I" in bio ("As a designer, i thrive...")
+- [x] Sanity EID project `solutionText2`: "its fullest potential" → "their fullest potential"
+- [x] Sanity EID project `accordionItems` (Print Production): add missing trailing period
+- [x] Sanity EID project `solutionText2`: add blank line between the "Deliverable 2" bold heading and its paragraph, matching Deliverable 1's formatting
+- [x] Flag Resume link with user — no resume file exists to link to, can't fix without one
+- [x] Security check
+- [x] Add review section
+
+## Fix: Contact Me button image missing on live site (2026-07-16)
+- [x] Root cause: `nav.js` references `assets/contact-me.png` / `assets/contact-me-hover.png` (lowercase), but the actual files were `Contact-me.png` / `Contact-me-hover.png` (capital C). macOS's case-insensitive filesystem masked this locally; the real web server is case-sensitive, so the image 404'd once live.
+- [x] Renamed both files to lowercase via `git mv` (two-step, since macOS won't recognize a case-only rename in one step) — confirmed no other asset reference had this mismatch (checked every `assets/*` reference in every HTML/JS file against the actual filenames on disk)
+- [x] Rebuilt the deploy zip with the corrected filenames; verified both images now serve with a 200 at the exact lowercase path
+- [x] Security check — pure filename rename, no data/content/link changes
+- [x] Add review section
+
+### Review — Contact Me image fix
+- Renamed `assets/Contact-me.png` → `assets/contact-me.png` and `assets/Contact-me-hover.png` → `assets/contact-me-hover.png` to match the paths already hardcoded in `nav.js`. No code changed — the code was already correct/lowercase, only the files on disk had the wrong case.
+- This means your dad's current live upload still has the broken image, since it was zipped before this fix. He'll need to re-upload the new zip from `~/Desktop/Portfolio_Practice_deploy.zip` to pick up the corrected filenames.
+- Worth flagging: this class of bug (case mismatch that only shows up on a real server, not on Mac) can hide in any future asset you add. If a new image doesn't show up live but works locally, check filename case first.
+
+## Zip for dad (2026-07-16)
+- [x] `footer.js`: remove the dead Resume `<li>` entirely (no resume file ready yet)
+- [x] Build deploy zip at `~/Desktop/Portfolio_Practice_deploy.zip`, excluding `studio/`, `tasks/`, `.git/`, `.gitignore`, `.vscode/`, `.DS_Store`, `claude.md`, the two orphaned folders (`casestudy-airbnb/`, `coming-soon-upload/`), and `coming-soon.html` — none deleted from disk, just left out of the archive
+- [x] Verified zip contents: all live pages/assets/scripts present, all exclusions confirmed absent
+
+### Review — Pre-zip cleanup
+- `footer.js`: added a small fetch to the Sanity `about` document (same public CDN query pattern already used in `nav.js`), and set `#footer-linkedin` / `#footer-instagram` hrefs from `linkedinUrl` / `instagramUrl`. Resume link left as `href="#"` — no resume file exists anywhere in the project, so there's nothing to point it at yet (see note to user).
+- Sanity content patched directly via the Actions/mutate API using the already-authenticated `sanity` CLI token (never written to any file): About bio capitalization, EID "their" pronoun fix, EID missing period, EID Deliverable 2 heading/paragraph line break. All four verified by re-querying the dataset after the patch.
+- Confirmed `casestudy-daisy-edit`'s "Client: The Daisy Edit" is correct as-is (company name, not a mistaken project-name entry) — no change needed.
+- Security: `footer.js` only reads from Sanity's public, anonymous-read CDN endpoint (same project ID/dataset already exposed in every other script on the site — this is the intended public API, not a secret). No token, credential, or write access of any kind is present in frontend code. The Sanity auth token used to edit content lives only in the local `sanity` CLI config on this machine and was never added to the repo or any file that will be zipped.
+- Verified: `node --check footer.js` passes, and the live CDN query returns both URLs correctly, confirming the fetch will populate real links when the page loads. Not verified via an actual browser render — recommend a quick visual check of the footer on localhost:5500 before zipping.
+
 ## Daisy Edit — section images as an arrow carousel with dot indicator
 - [x] `daisy-edit.js`: replace the static `.da-media-grid` (all images shown at once) with a carousel when a section has more than one image — one image visible at a time, left/right arrow buttons (reusing the same chevron SVGs as the Results strip arrows), and a row of dots below indicating position. Clicking a dot jumps to that image; arrows wrap around at the ends. A section with exactly one image still renders as a plain single image (no controls).
 - [x] CSS: add `.da-carousel`, `.da-carousel-viewport`, `.da-carousel-arrow` (reuse `.ai-strip-arrow` styling), `.da-carousel-dots`, `.da-carousel-dot` (`.active` state)

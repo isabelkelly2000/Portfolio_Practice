@@ -21,9 +21,8 @@
           '<div class="footer-col">' +
             '<h4>CONNECT</h4>' +
             '<ul>' +
-              '<li><a href="https://linkedin.com/in/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>' +
-              '<li><a href="#">Instagram</a></li>' +
-              '<li><a href="#">Resume</a></li>' +
+              '<li><a href="#" id="footer-linkedin" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>' +
+              '<li><a href="#" id="footer-instagram" target="_blank" rel="noopener noreferrer">Instagram</a></li>' +
             '</ul>' +
           '</div>' +
           '<div class="footer-col">' +
@@ -42,4 +41,24 @@
 
   var placeholder = document.getElementById('site-footer');
   if (placeholder) placeholder.outerHTML = footerHTML;
+
+  var linkedinLink = document.getElementById('footer-linkedin');
+  var instagramLink = document.getElementById('footer-instagram');
+  if (linkedinLink || instagramLink) {
+    var PROJECT_ID = 'rk7q4uop';
+    var DATASET = 'production';
+    var query = '*[_type == "about"][0]{ linkedinUrl, instagramUrl }';
+    var aboutUrl = 'https://' + PROJECT_ID + '.apicdn.sanity.io/v2021-10-21/data/query/' + DATASET
+      + '?query=' + encodeURIComponent(query);
+
+    fetch(aboutUrl)
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        var about = data.result;
+        if (!about) return;
+        if (linkedinLink && about.linkedinUrl) linkedinLink.href = about.linkedinUrl;
+        if (instagramLink && about.instagramUrl) instagramLink.href = about.instagramUrl;
+      })
+      .catch(function (err) { console.error('Footer social links fetch failed:', err); });
+  }
 })();
