@@ -1,5 +1,88 @@
 # Portfolio To-Do
 
+## Rebuild deploy zip for dad (2026-07-19)
+- [x] Renamed `assets/Me Image.png` → `assets/me_image.png` (per your request) — a space in a filename risks getting mangled by upload tools/URLs; updated the one reference in `about/index.html` to match
+- [x] Audited every `assets/`/`fonts/` reference across all live pages/scripts against the actual filenames on disk, case-sensitive — all match (this is the same class of bug that broke the Contact Me image before)
+- [x] Rebuilt `~/Desktop/Portfolio_Practice_deploy.zip` from current repo state, excluding `.git/`, `.gitignore`, `.vscode/`, `.DS_Store`, `claude.md`, `studio/`, `tasks/`, the orphaned `casestudy-airbnb/`, `coming-soon-upload/`, and `coming-soon.html` — nothing deleted from disk, just left out of the archive
+- [x] Verified: no wrapping top-level folder (files sit at zip root, matching prior working uploads), all exclusions confirmed absent, no stray `.DS_Store` anywhere in the archive
+- [x] Security check
+- [x] Add review section
+
+### Review — deploy zip rebuild
+- The zip now reflects everything done this session: the mobile hero/arrow fix, project card mobile sizing, and the case study TOC overhaul (all 3 case studies), plus the `me_image.png` rename.
+- Renaming `Me Image.png` removes a filename with a space, which is safer for FTP/cPanel uploads and URLs than relying on automatic `%20` encoding.
+- Security: no credentials, tokens, or non-public files are included — the zip is pure static site files (HTML/CSS/JS/assets), same as previous successful deploys. Sanity's write-access token stays local to this machine's `sanity` CLI config and was never part of the project directory.
+- Next step is on your end: send `~/Desktop/Portfolio_Practice_deploy.zip` to your dad to upload, preserving the folder structure.
+
+## Polish: TOC font size, long-item wrapping, edge offset (2026-07-19)
+- [x] `styles.css` mobile `.eid-toc-link`/`.ai-toc-link`: font-size 16px → 14px (2px smaller, per request)
+- [x] Same rule: added `max-width: 20ch; white-space: normal` (was `nowrap`) so items longer than ~20 characters wrap to two lines instead of extending horizontally, and added `align-items: flex-start` on `.eid-toc` so short single-line items and wrapped two-line items stay top-aligned rather than vertically centering unevenly
+- [x] Fixed root cause of items snapping flush to the screen edge: the `scrollActiveTocIntoView()` helper (in all 3 case study JS files) was computing a scroll offset relative to `.eid-toc`'s outer edge, which canceled out its own left padding — so the active item always landed flush at x=0 instead of at the 28px page margin. Subtracted the container's `padding-left` from the offset calculation in all three files so the active item now stops at the same margin as the rest of the page.
+- [x] Verified headlessly: font renders at 14px; a 20-char-wide pill computes to ~180px `max-width`; a long item ("Revisiting Functionality: Capsules") wraps to two lines; after scrolling, the active item's left edge sits ~28px from the screen edge (matching `--space-page-mobile`) instead of flush against it. No console errors, no page-level overflow.
+- [x] Final on-device check on your phone — confirmed working
+- [x] Security check
+- [x] Add review section
+
+### Review — TOC font/wrap/offset polish
+- All three changes live in the same shared mobile CSS block (`.eid-toc`, `.eid-toc-link`/`.ai-toc-link`) plus the `scrollActiveTocIntoView()` helper duplicated across `eid.js`, `daisy-edit.js`, and `airbnb-icons.js` — consistent with how the rest of this TOC feature is structured (shared CSS class names, per-page duplicated JS).
+- The edge-snapping bug was a genuine logic bug in the offset math I wrote for the previous TOC fix, not a style preference — `linkRect.left - tocRect.left` measures from the container's *border* edge, but the container's padding lives inside that edge, so the calculation was implicitly discarding the padding every time it scrolled. Subtracting `paddingLeft` corrects it.
+- Desktop (>900px) untouched — all changes are inside the existing `@media (max-width: 900px)` block.
+- Security: pure CSS sizing/wrapping + scroll-position math, no data or logic changes.
+
+## Fix: case study TOC overflows mobile viewport, no active-item scroll (2026-07-19)
+- [x] `styles.css`: split the mobile `.eid-sidebar` rule so `.eid-back` sits on its own row and `.eid-toc` becomes a horizontally-scrollable strip (`overflow-x: auto; flex-wrap: nowrap`) contained within the phone's width, instead of wrapping and pushing the whole page wider than the viewport
+- [x] `.eid-toc-link` / `.ai-toc-link`: added `flex-shrink: 0; white-space: nowrap` so items scroll as pills instead of wrapping their own text across lines
+- [x] Hid the scrollbar on `.eid-toc` (same pattern already used for `.ai-strip`)
+- [x] `casestudy-eid/eid.js`, `casestudy-daisy-edit/daisy-edit.js`, `casestudy-airbnb-icons/airbnb-icons.js`: in each file's IntersectionObserver TOC callback, after toggling `.active`, scroll `.eid-toc`/TOC container so the active link's left edge aligns with the container's left edge (same fix applied identically in all three, since all three duplicate the same TOC code)
+- [x] Verified headlessly at 375px width on all three case study pages: zero page-level horizontal overflow, TOC renders as a single scrollable row, and the active link auto-scrolls to the left edge as sections change (confirmed on Daisy Edit: scrolling to "Building the System" moved the TOC so that link sits ~3px from the container's left edge). No console errors on any of the three pages.
+- [x] Final on-device check on your phone — confirmed working
+- [x] Security check
+- [x] Add review section
+
+### Review — case study TOC mobile fix
+- Root cause: `.eid-sidebar` (shared by all 3 case study pages) let its TOC links `flex-wrap` across multiple lines on mobile instead of containing them, and since flex items don't shrink below their content width by default, the wrapped row was wider than the viewport — pushing the whole page wider and enabling pinch-zoom/horizontal scroll on the entire site, not just the TOC.
+- Fix: `.eid-back` ("← Back to work") now sits on its own row; `.eid-toc` is a separate `overflow-x: auto` strip with `flex-wrap: nowrap`, so it scrolls horizontally within its own bounds instead of expanding the page. Scrollbar hidden to match the existing `.ai-strip` pattern elsewhere on the site. `.eid-toc-link`/`.ai-toc-link` got `flex-shrink: 0; white-space: nowrap` so each item stays a single-line pill instead of wrapping its own text.
+- Added a small `scrollActiveTocIntoView()` helper to each of the three case study JS files (duplicated intentionally, matching how the rest of the TOC/observer logic is already duplicated per page rather than shared). It runs inside the existing IntersectionObserver callback whenever a new section becomes active, and scrolls the TOC strip so that link's left edge aligns with the strip's left edge.
+- Desktop layout (>900px) is untouched — the sidebar there is still a vertical column, unaffected by any of these mobile-only rules.
+- Security: pure CSS/layout + scroll-position JS, no new data sources, no user input handled, nothing touching Sanity fetch/auth logic.
+
+## Fix: company name / role on separate lines on mobile (2026-07-19)
+- [x] `styles.css`: inside the `@media (max-width: 900px)` block, set `.project-meta` to `flex-direction: column` (was row) so company name stacks above role tag
+- [x] Hide `.meta-dot` separator on mobile — the dot only makes sense as an inline separator, not between stacked lines
+- [x] Re-check on phone preview — confirmed working
+- [x] Security check
+- [x] Add review section
+
+### Review — company/role stacking on mobile
+- `.project-meta` (wraps company name + separator dot + role tag) now switches to `flex-direction: column` under 900px, so company name sits above the role tag instead of squeezing onto one row.
+- `.meta-dot` is hidden on mobile since it was a visual separator between the two inline items — no longer needed once they're stacked.
+- Desktop layout (>900px) unchanged.
+- Security: pure CSS layout change, no data/logic touched.
+
+## Fix: project card subtitle + pill text too large on mobile (2026-07-19)
+- [x] `styles.css`: inside the existing `@media (max-width: 900px)` responsive block, reduce `.project-company`, `.project-role-tag`, and `.project-pill` font sizes for mobile (were 16px each, sized fine for the wide desktop card but oversized/cramped at 375px width) — set to 12px per your request
+- [x] Also trimmed `.project-pill` padding on mobile (11px→9px horizontal, 5px→4px vertical) so pills don't wrap as aggressively
+- [x] Re-check on phone preview — confirmed working
+- [x] Security check
+- [x] Add review section
+
+### Review — project card mobile text sizing
+- Added rules inside the existing `@media (max-width: 900px)` block in `styles.css`: `.project-company`, `.project-role-tag`, and `.project-pill` now render at 12px on mobile/tablet instead of the desktop 16px; `.project-pill` padding also tightened slightly so the tag pills sit more compactly.
+- Desktop styling (>900px) is untouched — this only affects the mobile/tablet breakpoint.
+- Security: pure CSS sizing change, no data/logic touched.
+
+## Fix: mobile scroll arrow hidden behind Safari toolbar (2026-07-19)
+- [x] `styles.css` `#home`: change `min-height: 100vh` to `min-height: 100svh` (with `100vh` kept as a fallback line before it), so the hero's height reflects the actually-visible viewport when mobile Safari's address/toolbar is showing
+- [x] Re-check `.scroll-signal`'s `bottom: 48px` still sits fully in view on a 375px-wide phone preview after the change — verified no layout regression in headless Chromium; final confirmation pending your on-device check via localhost preview (headless browsers don't simulate Safari's collapsing toolbar)
+- [x] Security check (pure CSS unit change, no data/logic touched)
+- [x] Add review section
+
+### Review — mobile scroll arrow fix
+- `#home` previously used `min-height: 100vh` to size the hero section. On mobile Safari, `100vh` is calculated as if the browser's address/toolbar were hidden, so it overshoots the actually-visible area whenever the toolbar is showing. Since `.scroll-signal` is `position: absolute; bottom: 48px` inside `#home`, it was anchoring to the bottom of that oversized box — landing underneath the toolbar instead of in the visible viewport.
+- Added `min-height: 100svh` right after the existing `100vh` line. `svh` ("small viewport height") reflects the guaranteed-visible viewport with toolbars accounted for. Browsers that don't understand `svh` just keep using the `100vh` line above it (graceful fallback, no @supports needed).
+- No other elements use `bottom`-anchored absolute positioning inside `#home`, so this was a self-contained fix.
+- Security: pure CSS unit change, no data, scripts, or links touched.
+
 ## Pre-zip cleanup — dead links + grammar (2026-07-16)
 - [x] `footer.js`: wire real LinkedIn URL from Sanity `about` doc (same pattern as `nav.js`), replacing hardcoded dead `linkedin.com/in/`
 - [x] `footer.js`: wire real Instagram URL from Sanity `about` doc, replacing dead `href="#"`

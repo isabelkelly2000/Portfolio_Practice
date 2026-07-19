@@ -6,13 +6,27 @@
   var sections = document.querySelectorAll('.eid-section[data-section]');
   var tocLinks = document.querySelectorAll('.ai-toc-link');
 
+  function scrollActiveTocIntoView(activeLink) {
+    var toc = activeLink.closest('.eid-toc');
+    if (!toc) return;
+    var linkRect = activeLink.getBoundingClientRect();
+    var tocRect = toc.getBoundingClientRect();
+    var tocPaddingLeft = parseFloat(getComputedStyle(toc).paddingLeft) || 0;
+    var offset = linkRect.left - tocRect.left + toc.scrollLeft - tocPaddingLeft;
+    toc.scrollTo({ left: offset, behavior: 'smooth' });
+  }
+
   var observer = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (entry.isIntersecting) {
         var id = entry.target.getAttribute('data-section');
+        var activeLink;
         tocLinks.forEach(function (link) {
-          link.classList.toggle('active', link.getAttribute('data-target') === id);
+          var isActive = link.getAttribute('data-target') === id;
+          link.classList.toggle('active', isActive);
+          if (isActive) activeLink = link;
         });
+        if (activeLink) scrollActiveTocIntoView(activeLink);
       }
     });
   }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
