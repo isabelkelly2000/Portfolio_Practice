@@ -32,10 +32,10 @@ export default defineType({
       description: 'Link to your Instagram profile.',
     }),
     defineField({
-      name: 'instagramWidgetUrl',
-      title: 'Instagram Widget Embed URL',
-      type: 'url',
-      description: 'The iframe "src" URL from your LightWidget embed (lightwidget.com — create a free widget connected to your Instagram account, then copy the src from the generated iframe code, e.g. "//lightwidget.com/widgets/xxxxxx.html").',
+      name: 'instagramFeedId',
+      title: 'Instagram Feed ID (Behold.so)',
+      type: 'string',
+      description: 'The feed-id from your Behold.so widget embed (behold.so — connect your Instagram account, create a widget, then copy the "feed-id" value from the generated <behold-widget> snippet).',
     }),
   ],
   preview: {

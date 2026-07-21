@@ -414,3 +414,50 @@
 - Text copied exactly from the PDF — no edits made
 - Accordion built with plain JS (no libraries); toggles an .open class to animate max-height
 - Security: no user input, no dynamic data, no external requests beyond Google Fonts — no vulnerabilities present
+
+## Switch About page Instagram embed from LightWidget to Behold.so (2026-07-20)
+
+**Context:** Live Instagram widget was blank on isabelkelly.com — the Sanity
+`instagramWidgetUrl` field held an `http://` LightWidget URL, blocked as mixed content
+on the HTTPS live site. Rather than just fixing the protocol, switching providers to
+Behold.so. Embed snippet provided:
+```html
+<behold-widget feed-id="gUHmZy6qD83IRUCgIIj9"></behold-widget>
+<script>
+  (() => {
+    if(window.__bhldScript)return;window.__bhldScript=true;
+    const d=document,s=d.createElement("script");s.type="module";
+    s.src="https://w.behold.so/widget.js";setTimeout(()=>{d.head.append(s);},0);
+  })();
+</script>
+```
+
+- [ ] `about/index.html` — inside `#instagram-embed .embed-wrap`, replace the `<iframe>`
+      with `<behold-widget id="behold-widget"></behold-widget>` (no feed-id hardcoded,
+      set dynamically so it stays Sanity-driven and can be toggled off)
+- [ ] `about/about.js` — for the Instagram case, set the `feed-id` attribute on the
+      `behold-widget` element instead of an iframe `src`, and lazily inject Behold's
+      `widget.js` module script (once, guarded) only when a feed id is present; reuses
+      the existing show/hide pattern (`wrapper.hidden`)
+- [ ] `studio/isabel-kelly-portfolio/schemaTypes/about.js` — rename
+      `instagramWidgetUrl` → `instagramFeedId`, change type `url` → `string`, update
+      title/description to describe grabbing the feed ID from behold.so instead of the
+      LightWidget src
+- [ ] Update `about/about.js` GROQ query to fetch `instagramFeedId` instead of
+      `instagramWidgetUrl`
+- [ ] Manual step (you): in Sanity Studio, enter `gUHmZy6qD83IRUCgIIj9` into the new
+      Instagram Feed ID field on the About doc, and publish
+- [ ] Verify locally on desktop/tablet/mobile widths that the widget renders and the
+      `.embed-wrap` border/radius still frames it correctly
+- [ ] Security check: confirm Behold's script load (from `w.behold.so`, HTTPS, dynamic
+      `<script type="module">`) introduces no inline secrets and matches existing
+      external-embed pattern
+
+### Review
+- Root cause of the live blank widget: `instagramWidgetUrl` in Sanity held an `http://` LightWidget URL, which Safari (and most browsers) block as mixed content on the HTTPS live site. Switched providers to Behold.so rather than just fixing the protocol.
+- `about/index.html`: replaced the LightWidget `<iframe>` with `<behold-widget id="behold-widget"></behold-widget>` inside the existing `.embed-wrap` div (no feed-id hardcoded in HTML).
+- `about/about.js`: renamed GROQ fetch field to `instagramFeedId`; added `setInstagramEmbed()` which sets the `feed-id` attribute on the widget and lazily injects Behold's `widget.js` module script (guarded by `window.__bhldScript` so it only loads once); reuses the existing `wrapper.hidden` show/hide pattern so the block stays hidden if the field is ever cleared.
+- `studio/isabel-kelly-portfolio/schemaTypes/about.js`: renamed field `instagramWidgetUrl` → `instagramFeedId`, changed type `url` → `string` (a Behold feed ID isn't a URL, so the old `url` type would fail validation), updated title/description to reference Behold.so instead of LightWidget.
+- Manual step still needed from you: open Sanity Studio (http://localhost:3333) → About doc → paste `gUHmZy6qD83IRUCgIIj9` into the new **Instagram Feed ID (Behold.so)** field → publish. I didn't do this myself since no Sanity write token is configured in this environment (matches existing pattern of you owning content edits).
+- Verified with a headless Playwright script at desktop (1440px), tablet (834px), mobile (390px): widget mounts, sizes correctly, sits inside the existing `.embed-wrap` border/radius at all three widths, no console or network errors. The feed API call (`feeds.behold.so/...`) returned 200.
+- Security: Behold's script loads from `w.behold.so` over HTTPS via a dynamically-created `<script type="module">`, same external-embed pattern as before. Feed ID is not sensitive (it's already public in the embed snippet Behold gives you). No secrets, tokens, or user input introduced.
