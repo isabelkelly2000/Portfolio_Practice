@@ -141,6 +141,23 @@
 - `aria-expanded` kept in sync for accessibility
 - Security: no user input, no innerHTML, no eval — no vulnerabilities
 
+## Iteration Carousel (casestudy.html, Deliverable 2 section)
+Replaces/extends the current accordion under "Deliverable 2: Iterative Process" with a two-mode carousel: an overview grid of all version thumbnails (V1–V4, no text), and a detail mode with a fixed text box, a growing/shrinking main image, and a single secondary "predecessor" slot. Built with plain CSS transitions/transforms (FLIP technique) + vanilla JS, consistent with the rest of the site (no new libraries).
+
+- [ ] **HTML**: Add a `.iteration-carousel` block with:
+  - [ ] `.carousel-overview` — grid of thumbnail `<button>`s (image + Vn label), one per version
+  - [ ] `.carousel-detail` (hidden by default) — fixed text box, `.image-main` slot, `.image-secondary` slot, back/forward arrows
+- [ ] **JS**: Record each thumbnail's bounding rect on click (`getBoundingClientRect`) before switching to detail mode
+- [ ] **JS**: Detail-mode "enter" transition — position the clicked image at its recorded overview rect, then animate transform (scale + translate) to the main slot's final position/size (FLIP), fade/slide text box in
+- [ ] **JS**: Forward arrow — animate current main image transform down to the secondary slot's position/size; animate next version's image growing from the main slot's center outward to fill it; swap text content on the fixed text box
+- [ ] **JS**: Back arrow — symmetric reverse: secondary image grows back into main slot, current main image shrinks back to secondary slot, text content swaps back; secondary slot always holds exactly one predecessor (no accumulation)
+- [ ] **JS**: Back arrow from the first detail slide (or forward past the last) exits back to `.carousel-overview`, reverse-animating the main image back to its original grid cell
+- [ ] **CSS**: `transition: transform var(--duration) ease, opacity var(--duration) ease` on image elements; a shared timing token so all transitions feel consistent
+- [ ] **CSS**: Respect `prefers-reduced-motion` — fall back to instant/opacity-only transitions
+- [ ] **Responsive**: Confirm grid overview and detail layout (text box + image) both adapt at the existing breakpoints (checked in styles.css) — stack text below image on mobile
+- [ ] Security check — no user input, no innerHTML, no external requests
+- [ ] Add review section to todo.md
+
 ## Review
 - Created casestudy.html using the same styles.css and nav/footer pattern as index.html
 - Added all case study-specific styles to the bottom of styles.css under a new /* ── CASE STUDY ── */ section

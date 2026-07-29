@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iteration Carousel — Prototype</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* ── ITERATION CAROUSEL (prototype — move this block + the HTML below into
+     casestudy.html's "Deliverable 2" section when ready) ── */
+
+  .iteration-carousel {
+    max-width: var(--page-max-width);
+    margin: 0 auto;
+    padding: 80px var(--space-page) 40px;
+    --ic-duration: 0.6s;
+    --ic-easing: cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+  }
+
+  @media (max-width: 768px) {
+    .iteration-carousel { padding: 60px var(--space-page-mobile) 40px; }
+  }
+
+  .carousel-frames {
+    position: relative;
+    min-height: 560px;
+  }
+
+  /* ── Frame 1: overview ── */
+  .frame-overview {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    transition: opacity 0.4s ease;
+  }
+
+  .frame-overview.hidden { opacity: 0; pointer-events: none; position: absolute; inset: 0; }
+
+  @media (max-width: 900px) {
+    .frame-overview { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .overview-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .overview-thumb {
+    width: 100%;
+    aspect-ratio: 0.42;
+    background-color: var(--color-placeholder);
+    border-radius: var(--radius-image-block);
+  }
+
+  .overview-label {
+    font-size: 14px;
+    color: var(--color-text-muted);
+    letter-spacing: 0.02em;
+  }
+
+  /* ── Frames 2+: detail ── */
+  .frame-detail {
+    display: none;
+    position: absolute;
+    inset: 0;
+  }
+
+  .frame-detail.active { display: block; }
+
+  .carousel-detail-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 48px;
+    height: 100%;
+  }
+
+  @media (max-width: 768px) {
+    .carousel-detail-inner {
+      flex-direction: column;
+      gap: 24px;
+    }
+  }
+
+  .carousel-stage {
+    --board-height: 480px;
+    --board-ratio: 0.5; /* width : height = 1 : 2 */
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    height: var(--board-height);
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 768px) {
+    .carousel-stage {
+      width: 100%;
+      --board-height: 320px;
+    }
+  }
+
+  .secondary-slot,
+  .main-slot {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* main board: spans the full height of the stage at a 1:2 ratio */
+  .main-slot {
+    height: var(--board-height);
+    width: calc(var(--board-height) * var(--board-ratio));
+  }
+
+  /* predecessor board: same ratio, shrunk to 60% of the main board's size */
+  .secondary-slot {
+    height: calc(var(--board-height) * 0.6);
+    width: calc(var(--board-height) * var(--board-ratio) * 0.6);
+  }
+
+  .carousel-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-placeholder);
+    border-radius: var(--radius-image-block);
+    transform-origin: center center;
+    transition: transform var(--ic-duration) var(--ic-easing),
+                opacity var(--ic-duration) var(--ic-easing);
+  }
+
+  .carousel-image.is-empty {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .carousel-text {
+    flex: 1;
+    min-width: 0;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+
+  .carousel-text.swapping {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  .carousel-text-label {
+    font-size: 14px;
+    color: var(--color-accent);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .carousel-text-title {
+    font-family: var(--font-display);
+    color: var(--color-heading);
+    font-size: 26px;
+    margin: 0 0 16px;
+  }
+
+  .carousel-text-list {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--color-text-body);
+    line-height: 1.6;
+  }
+
+  .carousel-text-list li { margin-bottom: 10px; }
+  .carousel-text-list li ul { margin-top: 8px; }
+
+  .carousel-text-final {
+    color: var(--color-text-body);
+    line-height: 1.6;
+  }
+
+  .carousel-text-check {
+    margin-top: 16px;
+    font-weight: 600;
+    color: var(--color-heading);
+  }
+
+  /* ── Nav controls (shared across all frames) ── */
+  .carousel-nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  .carousel-arrow {
+    background: none;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-pill);
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease, opacity 0.2s ease;
+  }
+
+  .carousel-arrow:hover:not(:disabled) { background: var(--color-placeholder-line); }
+
+  .carousel-arrow:disabled {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .carousel-arrow svg { width: 16px; height: 16px; }
+
+  .carousel-dots {
+    display: flex;
+    gap: 8px;
+    margin-right: auto;
+  }
+
+  .carousel-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-placeholder-line);
+  }
+
+  .carousel-dot.active { background: var(--color-accent); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .carousel-image,
+    .carousel-text,
+    .frame-overview { transition: none !important; }
+  }
+
+  /* prototype-only chrome */
+  .proto-note {
+    max-width: var(--page-max-width);
+    margin: 40px auto 0;
+    padding: 0 var(--space-page);
+    color: var(--color-text-muted);
+    font-size: 13px;
+  }
+</style>
+</head>
+<body style="background: var(--color-bg);">
+
+  <section class="iteration-carousel" id="iterationCarousel">
+
+    <div class="carousel-frames">
+
+      <!-- FRAME 1: overview -->
+      <div class="frame-overview" id="frameOverview">
+        <div class="overview-item">
+          <div class="overview-thumb" data-thumb="0"></div>
+          <span class="overview-label">V1</span>
+        </div>
+        <div class="overview-item">
+          <div class="overview-thumb" data-thumb="1"></div>
+          <span class="overview-label">V2</span>
+        </div>
+        <div class="overview-item">
+          <div class="overview-thumb" data-thumb="2"></div>
+          <span class="overview-label">V3</span>
+        </div>
+        <div class="overview-item">
+          <div class="overview-thumb" data-thumb="3"></div>
+          <span class="overview-label">V4</span>
+        </div>
+      </div>
+
+      <!-- FRAMES 2-5: detail -->
+      <div class="frame-detail" id="frameDetail">
+        <div class="carousel-detail-inner">
+          <div class="carousel-stage">
+            <div class="secondary-slot">
+              <div class="carousel-image is-empty" id="imageSecondary"></div>
+            </div>
+            <div class="main-slot">
+              <div class="carousel-image" id="imageMain"></div>
+            </div>
+          </div>
+
+          <div class="carousel-text" id="carouselText">
+            <p class="carousel-text-label" id="textLabel">V1</p>
+            <h3 class="carousel-text-title" id="textTitle"></h3>
+            <div id="textContent"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="carousel-nav">
+      <div class="carousel-dots" id="carouselDots"></div>
+      <button class="carousel-arrow" id="prevArrow" aria-label="Previous">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="carousel-arrow" id="nextArrow" aria-label="Next">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+
+  </section>
+
+  <p class="proto-note">
+    Prototype only — placeholder grey blocks stand in for the real version images.
+    Once approved, move the <code>.iteration-carousel</code> markup, the &lt;style&gt; block above,
+    and <code>carousel-prototype.js</code> into casestudy.html / styles.css / casestudy.js.
+  </p>
+
+  <script src="carousel-prototype.js"></script>
+</body>
+</html>
